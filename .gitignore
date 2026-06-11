@@ -23,3 +23,7 @@ Desktop.ini
 !.vscode/extensions.json
 .idea/
 *.swp
+
+# Local reference material (third-party assets, never committed)
+reference/
+__pycache__/
