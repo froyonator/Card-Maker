@@ -1,20 +1,21 @@
 /**
  * Font role map for the Pokemon channel.
- * Roles and authentic-face research: .claude/knowledge/research/pokemon-card-fonts.md.
- * The app ships OFL substitutes (loaded in main.tsx via Fontsource); users who own the
- * authentic commercial fonts will be able to swap them in locally (planned for M3).
+ * Each stack lists the authentic face first (loaded from the gitignored
+ * /fonts-local/ folder when the user supplies it, see src/fonts-local.css)
+ * and the bundled OFL substitute as fallback.
+ * Role research: .claude/knowledge/research/pokemon-card-fonts.md.
  */
 export const POKEMON_FONTS: Record<string, string> = {
-  name: "'Cabin', sans-serif",
-  hpNumber: "'Cabin', sans-serif",
-  hpPrefix: "'Jost', sans-serif",
-  stage: "'Inter', sans-serif",
-  attackName: "'Cabin Condensed', sans-serif",
-  body: "'Cabin', sans-serif",
-  damage: "'Jost', sans-serif",
-  typeBar: "'Jost', sans-serif",
-  illustrator: "'Jost', sans-serif",
-  setNumber: "'Inter', sans-serif",
-  flavor: "'Tenor Sans', sans-serif",
-  copyright: "'Inter', sans-serif",
+  name: "'Gill Sans Std Regular Bold', 'Cabin', sans-serif",
+  hpNumber: "'Gill Sans Std Ultra Bold', 'Cabin', sans-serif",
+  hpPrefix: "'Futura LT Medium Bold', 'Jost', sans-serif",
+  stage: "'Frutiger LT 66 Bold Italic', 'Inter', sans-serif",
+  attackName: "'Gill Sans Std Bold Condensed', 'Cabin Condensed', sans-serif",
+  body: "'Gill Sans Std Regular', 'Cabin', sans-serif",
+  damage: "'Futura Std Heavy', 'Jost', sans-serif",
+  typeBar: "'Futura LT Medium Bold', 'Jost', sans-serif",
+  illustrator: "'Futura Std Bold Oblique', 'Jost', sans-serif",
+  setNumber: "'Frutiger LT 66 Bold Italic', 'Inter', sans-serif",
+  flavor: "'Optima Medium', 'Tenor Sans', sans-serif",
+  copyright: "'Frutiger LT 55 Roman', 'Inter', sans-serif",
 };

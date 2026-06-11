@@ -27,3 +27,6 @@ Desktop.ini
 # Local reference material (third-party assets, never committed)
 reference/
 __pycache__/
+
+# Authentic card fonts, user-supplied, never committed (see src/fonts-local.css)
+public/fonts-local/

@@ -24,15 +24,13 @@ export const pokemonChannel: ChannelDefinition = {
       { slot: "move1.text", label: "Move text", input: "multiline" },
     ]},
     { id: "typebar", label: "Type Bar", fields: [
-      { slot: "weakness", label: "Weakness", input: "text" },
-      { slot: "resistance", label: "Resistance", input: "text" },
-      { slot: "retreat", label: "Retreat", input: "text" },
+      { slot: "weakness", label: "Weakness modifier", input: "text" },
+      { slot: "resistance", label: "Resistance modifier", input: "text" },
     ]},
     { id: "cardinfo", label: "Card Info", fields: [
       { slot: "illustrator", label: "Illustrator", input: "text" },
       { slot: "setInfo", label: "Set text", input: "text" },
       { slot: "flavorText", label: "Flavor text", input: "multiline" },
-      { slot: "copyright", label: "Copyright line", input: "text" },
     ]},
   ],
 };

@@ -96,7 +96,7 @@ function LayerEl({ layer, params, card, symbols, fonts, onClick }: LayerElProps)
       );
     }
     case "text": {
-      const raw = card.fields[layer.slot];
+      const raw = layer.slot ? card.fields[layer.slot] : layer.text;
       const value = typeof raw === "string" ? raw : "";
       const lines = wrapText(value, layer.w, approxMeasure(layer.size), layer.maxLines);
       const lh = (layer.lineHeight ?? 1.15) * layer.size;

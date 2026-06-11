@@ -14,6 +14,9 @@ import "@fontsource/inter/700.css";
 import "@fontsource/inter/700-italic.css";
 import "@fontsource/tenor-sans/400.css";
 
+// Authentic faces override the substitutes when the user supplies them locally.
+import "./fonts-local.css";
+
 import App from "./App.tsx";
 
 createRoot(document.getElementById("root")!).render(

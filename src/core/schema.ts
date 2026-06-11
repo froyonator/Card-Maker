@@ -36,7 +36,11 @@ const ShapeLayer = z.object({
 });
 const TextLayer = z.object({
   ...BaseLayer, kind: z.literal("text"),
-  slot: z.string().min(1), x: z.number(), y: z.number(), w: z.number(),
+  /** User-editable field name. Omit for static frame labels and provide `text` instead. */
+  slot: z.string().min(1).optional(),
+  /** Literal label content for static text layers (used when `slot` is absent). */
+  text: z.string().optional(),
+  x: z.number(), y: z.number(), w: z.number(),
   size: z.number(), weight: z.number().optional(), align: z.enum(["start", "middle", "end"]).optional(),
   color: Paint, maxLines: z.number().int().positive().optional(), lineHeight: z.number().optional(),
   fontRole: z.string().optional(), letterSpacing: z.number().optional(), italic: z.boolean().optional(),

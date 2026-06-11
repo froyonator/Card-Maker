@@ -1,0 +1,20 @@
+/*
+ * Authentic card font faces, loaded from /public/fonts-local/ when present.
+ * That folder is gitignored: these are commercial fonts the project cannot
+ * redistribute. Users who own them drop the woff2 files in locally and the
+ * font role map (src/channels/pokemon/fonts.ts) picks them up automatically;
+ * when a file is missing the browser falls back to the bundled OFL substitute
+ * named next in each font stack. File names follow the common distribution.
+ */
+@font-face { font-family: "Gill Sans Std Regular"; src: url("/fonts-local/GillSans.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Gill Sans Std Regular Bold"; src: url("/fonts-local/GillSans-Bold.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Gill Sans Std Regular Italic"; src: url("/fonts-local/GillSans-Italic.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Gill Sans Std Bold Condensed"; src: url("/fonts-local/GillSans-CondensedBold.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Gill Sans Std Ultra Bold"; src: url("/fonts-local/GillSans-ExtraBoldDisplay.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Futura LT Medium Bold"; src: url("/fonts-local/FuturaLT-Heavy.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Futura Std Heavy"; src: url("/fonts-local/FuturaStd-Heavy.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Futura Std Bold Oblique"; src: url("/fonts-local/FuturaStd-BoldOblique.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Frutiger LT 55 Roman"; src: url("/fonts-local/FrutigerLT-Roman.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Frutiger LT 66 Bold Italic"; src: url("/fonts-local/FrutigerLT-BoldItalic.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Optima Medium"; src: url("/fonts-local/Optima-Medium.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "PKMN TCG Symbols"; src: url("/fonts-local/PKMN_TCG_SYM18.woff2") format("woff2"); font-display: swap; }

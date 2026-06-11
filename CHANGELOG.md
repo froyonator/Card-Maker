@@ -5,6 +5,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [S
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-06-11
+
+### Added
+- Local authentic-font loading: the app declares the real card faces (Gill Sans, Futura, Frutiger, Optima) from the gitignored `public/fonts-local/` folder and falls back to the bundled OFL substitutes when absent.
+- Static text layers: frame labels (weakness, resistance, retreat) are part of the framework, not user fields.
+
+### Changed
+- S&V Basic framework v1.5 from owner feedback: metallic stage tab, redrawn lightning/colorless/fighting energy symbols (ring, sheen, outlined glyphs), softer flatter body color, tube divider overlapping the art bezel, embossed stepped silver rules around the type bar, weakness type symbol and modifier, three retreat cost discs, watermark line removed.
+
 ## [0.3.0] - 2026-06-11
 
 ### Added
