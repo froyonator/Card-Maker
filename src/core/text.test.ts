@@ -9,7 +9,8 @@ describe("wrapText", () => {
     expect(wrapText("hello", 100, measure)).toEqual(["hello"]);
   });
   it("wraps greedily at word boundaries", () => {
-    expect(wrapText("draw any two energy", 100, measure)).toEqual(["draw any", "two", "energy"]);
+    // "draw any" = 80 ≤ 100; adding " two" = 120 breaks; "two energy" = 100 fits exactly
+    expect(wrapText("draw any two energy", 100, measure)).toEqual(["draw any", "two energy"]);
   });
   it("respects maxLines with ellipsis on the last line", () => {
     // lines at width 30 are ["a b","c d","e f","g h"]; "c d…" measures 40 > 30, so it trims to "c…"
