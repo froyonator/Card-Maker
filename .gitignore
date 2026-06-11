@@ -10,6 +10,9 @@ coverage/
 # Personal Claude memory — never committed (see .claude/ structure)
 .claude/state/
 
+# Brainstorm session mockups (visual companion)
+.superpowers/
+
 # OS junk
 Thumbs.db
 Desktop.ini
