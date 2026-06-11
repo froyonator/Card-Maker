@@ -5,6 +5,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [S
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-06-11
+
+### Added
+- Writing-style rules (professional tone, no em dashes, factual docs) applied across all code and docs; README rewritten.
+- Engine: linear gradient fills and per-layer font roles (fontRole, letterSpacing, italic).
+- Typography: per-section font role map for the Pokemon channel with bundled OFL substitutes (Cabin, Cabin Condensed, Jost, Inter, Tenor Sans); authentic-font research recorded in the knowledge base.
+- S&V Basic framework v1: silver gradient border, type-colored gradient body with highlight sweep, stage badge, bezeled art window, divider tube, double-rule type bar, era typography. All colors remain palette-driven.
+- tools/img2framework.py: traces any raster image into framework shape layers (vtracer), rescaled to the design space, with optional color-to-parameter mapping. Output of official templates stays local per the copyright rule in tools/README.md.
+
+### Changed
+- Type palettes now carry four colors per type (frameLight, frameDark, frameSheen, accentColor).
+
 ## [0.2.0] - 2026-06-11
 
 ### Added
