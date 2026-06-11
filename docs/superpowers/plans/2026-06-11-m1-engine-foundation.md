@@ -51,7 +51,7 @@ src/
 
 **Files:** Create: `package.json`, `vite.config.ts`, `tsconfig.json`, `src/main.tsx`, `src/App.tsx`, `index.html` (via scaffolder, then trimmed)
 
-- [ ] **Step 1: Scaffold in repo root**
+- [x] **Step 1: Scaffold in repo root**
 
 ```powershell
 Set-Location C:\dev\card-maker
@@ -63,7 +63,7 @@ npm install -D vitest jsdom @testing-library/react @testing-library/jest-dom
 
 (Scaffolder may warn the directory is non-empty — choose "Ignore files and continue". If it refuses non-interactively, scaffold into `tmp-scaffold/`, move contents up, delete `tmp-scaffold/`.)
 
-- [ ] **Step 2: Strip template noise**
+- [x] **Step 2: Strip template noise**
 
 Delete `src/App.css`, `src/assets/react.svg`, `public/vite.svg`; replace `src/App.tsx` with a placeholder and `src/index.css` with a minimal reset:
 
@@ -80,7 +80,7 @@ export default function App() {
 body { background: #161618; color: #e8e8ea; font-family: system-ui, sans-serif; }
 ```
 
-- [ ] **Step 3: Wire Vitest + strict TS**
+- [x] **Step 3: Wire Vitest + strict TS**
 
 Add to `vite.config.ts` (vitest config in the same file, with a triple-slash reference):
 
@@ -99,11 +99,11 @@ Confirm `tsconfig.app.json` has `"strict": true` (Vite template default — veri
 
 Add scripts to `package.json`: `"test": "vitest run"`, `"test:watch": "vitest"`.
 
-- [ ] **Step 4: Smoke-verify**
+- [x] **Step 4: Smoke-verify**
 
 Run: `npm run dev` (background) — expect Vite serving on localhost with the placeholder text. Then `npm run build` — expect clean TS build. Then `npm run test` — expect "no test files found" exit 0 (or add a trivial `expect(true).toBe(true)` spec and delete it in Task 2).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```powershell
 git add -A
@@ -116,7 +116,7 @@ git commit -m "feat: scaffold Vite + React + TypeScript app with Vitest"
 
 **Files:** Create: `src/core/geometry.ts`, Test: `src/core/geometry.test.ts`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 ```ts
 // src/core/geometry.test.ts
@@ -163,9 +163,9 @@ describe("exportPixelSize", () => {
 });
 ```
 
-- [ ] **Step 2: Run to verify failure** — `npm run test -- geometry` → FAIL (module not found).
+- [x] **Step 2: Run to verify failure** — `npm run test -- geometry` → FAIL (module not found).
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 ```ts
 // src/core/geometry.ts
@@ -199,9 +199,9 @@ export function exportPixelSize(req: ExportRequest): PixelSize {
 }
 ```
 
-- [ ] **Step 4: Verify pass** — `npm run test -- geometry` → all green.
+- [x] **Step 4: Verify pass** — `npm run test -- geometry` → all green.
 
-- [ ] **Step 5: Commit** — `git add src/core; git commit -m "feat: card/MPC geometry module with mpc_bleed.py contract tests"`
+- [x] **Step 5: Commit** — `git add src/core; git commit -m "feat: card/MPC geometry module with mpc_bleed.py contract tests"`
 
 ---
 
@@ -209,7 +209,7 @@ export function exportPixelSize(req: ExportRequest): PixelSize {
 
 **Files:** Create: `src/core/schema.ts`, Test: `src/core/schema.test.ts`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 ```ts
 // src/core/schema.test.ts
@@ -267,9 +267,9 @@ describe("CardDocumentSchema", () => {
 });
 ```
 
-- [ ] **Step 2: Verify failure** — `npm run test -- schema` → FAIL.
+- [x] **Step 2: Verify failure** — `npm run test -- schema` → FAIL.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 ```ts
 // src/core/schema.ts
@@ -357,9 +357,9 @@ export type CardDocument = z.infer<typeof CardDocumentSchema>;
 export type ImageFieldValue = z.infer<typeof ImageValue>;
 ```
 
-- [ ] **Step 4: Verify pass** — `npm run test -- schema` → green.
+- [x] **Step 4: Verify pass** — `npm run test -- schema` → green.
 
-- [ ] **Step 5: Commit** — `git commit -m "feat: zod schemas for Framework and CardDocument"`
+- [x] **Step 5: Commit** — `git commit -m "feat: zod schemas for Framework and CardDocument"`
 
 ---
 
@@ -367,7 +367,7 @@ export type ImageFieldValue = z.infer<typeof ImageValue>;
 
 **Files:** Create: `src/core/params.ts`, Test: `src/core/params.test.ts`
 
-- [ ] **Step 1: Failing tests**
+- [x] **Step 1: Failing tests**
 
 ```ts
 // src/core/params.test.ts
@@ -401,9 +401,9 @@ describe("resolvePaint", () => {
 });
 ```
 
-- [ ] **Step 2: Verify failure.** `npm run test -- params` → FAIL.
+- [x] **Step 2: Verify failure.** `npm run test -- params` → FAIL.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 ```ts
 // src/core/params.ts
@@ -436,7 +436,7 @@ export function resolvePaint(paint: string, params: ResolvedParams): string {
 }
 ```
 
-- [ ] **Step 4: Verify pass.** **Step 5: Commit** — `git commit -m "feat: parameter resolution with default/palette/override precedence"`
+- [x] **Step 4: Verify pass.** **Step 5: Commit** — `git commit -m "feat: parameter resolution with default/palette/override precedence"`
 
 ---
 
@@ -444,7 +444,7 @@ export function resolvePaint(paint: string, params: ResolvedParams): string {
 
 **Files:** Create: `src/core/text.ts`, Test: `src/core/text.test.ts`
 
-- [ ] **Step 1: Failing tests**
+- [x] **Step 1: Failing tests**
 
 ```ts
 // src/core/text.test.ts
@@ -474,9 +474,9 @@ describe("wrapText", () => {
 });
 ```
 
-- [ ] **Step 2: Verify failure.**
+- [x] **Step 2: Verify failure.**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 ```ts
 // src/core/text.ts
@@ -515,7 +515,7 @@ export function wrapText(text: string, maxWidth: number, measure: Measure, maxLi
 }
 ```
 
-- [ ] **Step 4: Verify pass.** **Step 5: Commit** — `git commit -m "feat: deterministic greedy text wrapping"`
+- [x] **Step 4: Verify pass.** **Step 5: Commit** — `git commit -m "feat: deterministic greedy text wrapping"`
 
 ---
 
@@ -523,7 +523,7 @@ export function wrapText(text: string, maxWidth: number, measure: Measure, maxLi
 
 **Files:** Create: `src/core/render/CardRenderer.tsx`, Test: `src/core/render/CardRenderer.test.tsx`
 
-- [ ] **Step 1: Failing tests**
+- [x] **Step 1: Failing tests**
 
 ```tsx
 // src/core/render/CardRenderer.test.tsx
@@ -570,9 +570,9 @@ describe("CardRenderer", () => {
 });
 ```
 
-- [ ] **Step 2: Verify failure.**
+- [x] **Step 2: Verify failure.**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 ```tsx
 // src/core/render/CardRenderer.tsx
@@ -691,9 +691,9 @@ function LayerEl({ layer, params, card, clipExtend, onClick }: LayerElProps) {
 
 Note: `clipExtend` is accepted but clipping `extend` layers at trim is achieved by the viewBox itself in trim mode (geometry outside `0 0 750 1050` simply isn't visible). The flag exists so M3's export path can assert behavior; no clipPath element is needed in M1.
 
-- [ ] **Step 4: Verify pass** — `npm run test -- CardRenderer` → green. (jsdom renders SVG attributes; that is all these tests assert.)
+- [x] **Step 4: Verify pass** — `npm run test -- CardRenderer` → green. (jsdom renders SVG attributes; that is all these tests assert.)
 
-- [ ] **Step 5: Commit** — `git commit -m "feat: SVG CardRenderer for shape/text/image/group layers"`
+- [x] **Step 5: Commit** — `git commit -m "feat: SVG CardRenderer for shape/text/image/group layers"`
 
 ---
 
@@ -701,7 +701,7 @@ Note: `clipExtend` is accepted but clipping `extend` layers at trim is achieved 
 
 **Files:** Create: `src/channels/types.ts`, `src/channels/registry.ts`, `src/channels/pokemon/palettes.ts`, `src/channels/pokemon/symbols.tsx`, `src/channels/pokemon/frameworks/sv-basic.ts`, `src/channels/pokemon/index.ts`, Tests: `src/channels/registry.test.ts`, `src/channels/pokemon/pokemon.test.ts`
 
-- [ ] **Step 1: Failing tests**
+- [x] **Step 1: Failing tests**
 
 ```ts
 // src/channels/registry.test.ts
@@ -759,9 +759,9 @@ describe("pokemon channel", () => {
 });
 ```
 
-- [ ] **Step 2: Verify failure.**
+- [x] **Step 2: Verify failure.**
 
-- [ ] **Step 3: Implement the four channel files**
+- [x] **Step 3: Implement the four channel files**
 
 ```ts
 // src/channels/types.ts
@@ -961,9 +961,9 @@ case "symbol": {
 
 (`ChannelDefinition` import cycle note: `SymbolDef` lives in `channels/types.ts`; move it to `core/schema.ts` if the import direction complains — core must not import from channels. Simplest correct fix: define `SymbolDef` in `core/schema.ts` and re-export from `channels/types.ts`.)
 
-- [ ] **Step 4: Verify pass** — `npm run test` → all suites green.
+- [x] **Step 4: Verify pass** — `npm run test` → all suites green.
 
-- [ ] **Step 5: Commit** — `git commit -m "feat: channel registry, Pokémon channel with S&V Basic framework v0"`
+- [x] **Step 5: Commit** — `git commit -m "feat: channel registry, Pokémon channel with S&V Basic framework v0"`
 
 ---
 
@@ -971,7 +971,7 @@ case "symbol": {
 
 **Files:** Create: `src/export/raster.ts`, Test: `src/export/raster.test.ts`, Modify: `src/App.tsx`
 
-- [ ] **Step 1: Failing test (pure parts)**
+- [x] **Step 1: Failing test (pure parts)**
 
 ```ts
 // src/export/raster.test.ts
@@ -989,9 +989,9 @@ describe("exportFilename", () => {
 });
 ```
 
-- [ ] **Step 2: Verify failure.**
+- [x] **Step 2: Verify failure.**
 
-- [ ] **Step 3: Implement raster.ts**
+- [x] **Step 3: Implement raster.ts**
 
 ```ts
 // src/export/raster.ts
@@ -1046,7 +1046,7 @@ export function downloadBlob(blob: Blob, filename: string): void {
 }
 ```
 
-- [ ] **Step 4: Dev harness App.tsx**
+- [x] **Step 4: Dev harness App.tsx**
 
 ```tsx
 // src/App.tsx
@@ -1118,18 +1118,18 @@ export default function App() {
 
 (`CardRenderer` gains the `symbols?: SymbolDef[]` prop in Task 7 — make sure the prop name matches.)
 
-- [ ] **Step 5: Verify** — `npm run test` all green; `npm run build` clean; `npm run dev`, open the page: sample Dedenne card renders, palette dropdown recolors instantly, all three export buttons download PNGs. Check MPC PNG: 1644×2244, frame color fills the outer ring edge-to-edge.
+- [x] **Step 5: Verify** — `npm run test` all green; `npm run build` clean; `npm run dev`, open the page: sample Dedenne card renders, palette dropdown recolors instantly, all three export buttons download PNGs. Check MPC PNG: 1644×2244, frame color fills the outer ring edge-to-edge.
 
-- [ ] **Step 6: Commit** — `git commit -m "feat: raster export and dev harness with sample card"`
+- [x] **Step 6: Commit** — `git commit -m "feat: raster export and dev harness with sample card"`
 
 ---
 
 ### Task 9: Wrap-up
 
-- [ ] **Step 1:** Update `CHANGELOG.md` `[Unreleased]` → roll into `0.2.0` with the engine-foundation feature list. Set `package.json` version to `0.2.0`.
-- [ ] **Step 2:** `git add -A; git commit -m "chore: release 0.2.0 — engine foundation"`
-- [ ] **Step 3:** `git push origin main`
-- [ ] **Step 4:** Verify success criteria of this plan: all tests green (`npm run test`), build clean, harness renders + recolors + exports (manual), MPC export dimensions verified.
+- [x] **Step 1:** Update `CHANGELOG.md` `[Unreleased]` → roll into `0.2.0` with the engine-foundation feature list. Set `package.json` version to `0.2.0`.
+- [x] **Step 2:** `git add -A; git commit -m "chore: release 0.2.0 — engine foundation"`
+- [x] **Step 3:** `git push origin main`
+- [x] **Step 4:** Verify success criteria of this plan: all tests green (`npm run test`), build clean, harness renders + recolors + exports (manual), MPC export dimensions verified.
 
 ---
 
