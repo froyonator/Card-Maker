@@ -1,10 +1,10 @@
-# Project Environment Implementation Plan
+﻿# Project Environment Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Build the Card Maker repository environment per the approved spec: project-local `.claude/` memory (knowledge/rules/skills/scripts/state), CLAUDE.md entry point, repo hygiene files, a pointer in the old OneDrive folder, and a first push to GitHub.
 
-**Architecture:** Everything is plain markdown/config — no application code. The `.claude/` directory is committed to git except `state/`, which is gitignored personal memory. CLAUDE.md uses Claude Code `@path` imports so rules auto-load every session.
+**Architecture:** Everything is plain markdown/config â€” no application code. The `.claude/` directory is committed to git except `state/`, which is gitignored personal memory. CLAUDE.md uses Claude Code `@path` imports so rules auto-load every session.
 
 **Tech Stack:** Git, GitHub (`origin` = https://github.com/froyonator/Card-Maker.git), Markdown, EditorConfig.
 
@@ -18,7 +18,7 @@
 - Create: `C:\dev\card-maker\.gitignore`
 - Create: `C:\dev\card-maker\.editorconfig`
 
-- [ ] **Step 1: Write `.gitignore`**
+- [x] **Step 1: Write `.gitignore`**
 
 ```gitignore
 # Dependencies & build output (future app scaffold)
@@ -30,7 +30,7 @@ coverage/
 .env
 .env.*
 
-# Personal Claude memory — never committed (see .claude/ structure)
+# Personal Claude memory â€” never committed (see .claude/ structure)
 .claude/state/
 
 # OS junk
@@ -45,7 +45,7 @@ Desktop.ini
 *.swp
 ```
 
-- [ ] **Step 2: Write `.editorconfig`**
+- [x] **Step 2: Write `.editorconfig`**
 
 ```ini
 root = true
@@ -62,7 +62,7 @@ indent_size = 2
 trim_trailing_whitespace = false
 ```
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```powershell
 Set-Location C:\dev\card-maker
@@ -83,47 +83,47 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 - Create: `C:\dev\card-maker\.claude\rules\code-style.md`
 - Create: `C:\dev\card-maker\.claude\rules\security.md`
 
-- [ ] **Step 1: Write `git-discipline.md`**
+- [x] **Step 1: Write `git-discipline.md`**
 
 ```markdown
 # Git Discipline
 
 - Work on `main` locally for now; switch to feature branches once the app scaffold lands.
-- Small, atomic commits — one logical change per commit.
+- Small, atomic commits â€” one logical change per commit.
 - Conventional commit messages: `feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:`.
 - Never force-push `main`. Never rewrite published history.
-- Push to `origin` (https://github.com/froyonator/Card-Maker) occasionally — local-first workflow; the remote is backup + publication, not the workspace.
+- Push to `origin` (https://github.com/froyonator/Card-Maker) occasionally â€” local-first workflow; the remote is backup + publication, not the workspace.
 - Never commit secrets, tokens, or `.env` files. `.claude/state/` is personal memory and stays untracked.
 - Record significant decisions in `.claude/knowledge/decisions.md` in the same commit as the change they explain.
 ```
 
-- [ ] **Step 2: Write `code-style.md`**
+- [x] **Step 2: Write `code-style.md`**
 
 ```markdown
 # Code Style
 
-(App code does not exist yet — these rules take effect with the first scaffold. Update when the stack is finalized.)
+(App code does not exist yet â€” these rules take effect with the first scaffold. Update when the stack is finalized.)
 
 - TypeScript everywhere, `strict: true`. No `any` unless annotated with a reason.
 - Prefer small, focused files: one component/module responsibility per file.
 - Components: PascalCase files and exports. Utilities/hooks: camelCase, hooks prefixed `use`.
-- No premature abstraction — duplicate twice before extracting (rule of three).
+- No premature abstraction â€” duplicate twice before extracting (rule of three).
 - Comments explain constraints and "why", never "what" the next line does.
 - Match the formatting config in `.editorconfig`; formatter/linter config will be added with the scaffold.
 ```
 
-- [ ] **Step 3: Write `security.md`**
+- [x] **Step 3: Write `security.md`**
 
 ```markdown
 # Security
 
-- No secrets, API keys, or tokens in the repo — ever. Use `.env` locally (gitignored) and document required vars in README.
+- No secrets, API keys, or tokens in the repo â€” ever. Use `.env` locally (gitignored) and document required vars in README.
 - This app will accept user-uploaded images and user-authored templates: treat all user content as untrusted. Validate file types/sizes; never `dangerouslySetInnerHTML` with user content; sanitize anything rendered or exported.
-- Keep dependencies minimal and audited — every new package needs a reason; prefer zero-dependency solutions for small utilities.
+- Keep dependencies minimal and audited â€” every new package needs a reason; prefer zero-dependency solutions for small utilities.
 - Open-source repo: assume everything committed is public the moment it lands. There is no "temporary" secret commit.
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```powershell
 Set-Location C:\dev\card-maker
@@ -144,7 +144,7 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 - Create: `C:\dev\card-maker\.claude\knowledge\decisions.md`
 - Create: `C:\dev\card-maker\.claude\knowledge\research\README.md`
 
-- [ ] **Step 1: Write `architecture.md`**
+- [x] **Step 1: Write `architecture.md`**
 
 ```markdown
 # Architecture
@@ -160,31 +160,31 @@ See `docs/superpowers/specs/2026-06-11-project-environment-design.md` for the en
 and `decisions.md` for the running decision log.
 ```
 
-- [ ] **Step 2: Write `decisions.md`**
+- [x] **Step 2: Write `decisions.md`**
 
 ```markdown
 # Decision Log
 
 Running log of significant decisions. Newest first. Format: date, decision, why, revisit-when.
 
-## 2026-06-11 — Stack provisionally Vite + React + TypeScript
+## 2026-06-11 â€” Stack provisionally Vite + React + TypeScript
 **Why:** Card maker is a client-side editor; lean SPA hosts anywhere free; large OSS contributor pool.
-**Revisit when:** Full product idea is shared — sharing/galleries/accounts could justify Next.js.
+**Revisit when:** Full product idea is shared â€” sharing/galleries/accounts could justify Next.js.
 
-## 2026-06-11 — Project-local `.claude/` committed to git; `state/` gitignored
+## 2026-06-11 â€” Project-local `.claude/` committed to git; `state/` gitignored
 **Why:** Open-source contributors and every Claude session share identical context; personal logs must not collide.
 **Revisit when:** Never expected; structure may grow (skills/, scripts/) as workflows emerge.
 
-## 2026-06-11 — Repo lives at `C:\dev\card-maker`, not OneDrive
+## 2026-06-11 â€” Repo lives at `C:\dev\card-maker`, not OneDrive
 **Why:** OneDrive sync conflicts with Node tooling (node_modules churn, file locks). Git + GitHub are the backup.
 **Revisit when:** Never.
 
-## 2026-06-11 — License: MIT
+## 2026-06-11 â€” License: MIT
 **Why:** Permissive default for an open-source tool; GitHub-initialized.
 **Revisit when:** Before first public release announcement, if attribution/copyleft preferences change.
 ```
 
-- [ ] **Step 3: Write `research/README.md`**
+- [x] **Step 3: Write `research/README.md`**
 
 ```markdown
 # Research Notes
@@ -194,7 +194,7 @@ approach comparisons (SVG vs Canvas vs Konva/Fabric), card template format studi
 quality experiments. One topic per file, dated headers inside.
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```powershell
 Set-Location C:\dev\card-maker
@@ -215,7 +215,7 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 - Create: `C:\dev\card-maker\.claude\scripts\README.md`
 - Create: `C:\dev\card-maker\.claude\settings.json`
 
-- [ ] **Step 1: Write `skills/README.md`**
+- [x] **Step 1: Write `skills/README.md`**
 
 ```markdown
 # Project Skills
@@ -228,7 +228,7 @@ is worth standardizing. Likely future candidates: release checklist, template-fo
 visual regression check.
 ```
 
-- [ ] **Step 2: Write `scripts/README.md`**
+- [x] **Step 2: Write `scripts/README.md`**
 
 ```markdown
 # Scripts & Hooks
@@ -239,7 +239,7 @@ Empty by design (YAGNI): add a hook when there is a real risk to guard (e.g., bl
 containing secrets, or a pre-push test gate once tests exist).
 ```
 
-- [ ] **Step 3: Write `settings.json`**
+- [x] **Step 3: Write `settings.json`**
 
 ```json
 {
@@ -247,7 +247,7 @@ containing secrets, or a pre-push test gate once tests exist).
 }
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```powershell
 Set-Location C:\dev\card-maker
@@ -266,12 +266,12 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 **Files:**
 - Create: `C:\dev\card-maker\CLAUDE.md`
 
-- [ ] **Step 1: Write `CLAUDE.md`**
+- [x] **Step 1: Write `CLAUDE.md`**
 
 ```markdown
 # Card Maker
 
-Open-source web app for creating fully custom trading-card-style cards — inspired by
+Open-source web app for creating fully custom trading-card-style cards â€” inspired by
 pokecardmaker.net, but more powerful and customizable. **Status: pre-scaffold.** The product
 design brainstorm has not happened yet; no application code exists. Stack is provisionally
 Vite + React + TypeScript (see decision log before assuming).
@@ -284,12 +284,12 @@ Vite + React + TypeScript (see decision log before assuming).
 
 ## Memory map (read on demand)
 
-- `.claude/knowledge/architecture.md` — app architecture (stub until designed)
-- `.claude/knowledge/decisions.md` — running decision log; check before re-litigating a choice
-- `.claude/knowledge/research/` — reference notes
-- `.claude/skills/`, `.claude/scripts/` — project workflows and hooks (empty by design for now)
-- `.claude/state/` — YOUR personal session memory (gitignored): backlog, diary. Keep it current.
-- `docs/superpowers/specs/` — approved design specs; `docs/superpowers/plans/` — implementation plans
+- `.claude/knowledge/architecture.md` â€” app architecture (stub until designed)
+- `.claude/knowledge/decisions.md` â€” running decision log; check before re-litigating a choice
+- `.claude/knowledge/research/` â€” reference notes
+- `.claude/skills/`, `.claude/scripts/` â€” project workflows and hooks (empty by design for now)
+- `.claude/state/` â€” YOUR personal session memory (gitignored): backlog, diary. Keep it current.
+- `docs/superpowers/specs/` â€” approved design specs; `docs/superpowers/plans/` â€” implementation plans
 
 ## Working agreement
 
@@ -298,7 +298,7 @@ Vite + React + TypeScript (see decision log before assuming).
 - Before designing app features, read the latest spec in `docs/superpowers/specs/`.
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```powershell
 Set-Location C:\dev\card-maker
@@ -318,13 +318,13 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 - Create: `C:\dev\card-maker\.claude\state\backlog.md` (NOT committed)
 - Create: `C:\dev\card-maker\.claude\state\diary\` (empty dir, NOT committed)
 
-- [ ] **Step 1: Write `state/backlog.md`**
+- [x] **Step 1: Write `state/backlog.md`**
 
 ```markdown
 # Backlog
 
 ## Next up
-- [ ] User shares full product vision → run brainstorming skill → app design spec
+- [ ] User shares full product vision â†’ run brainstorming skill â†’ app design spec
 - [ ] Confirm/revise stack (Vite+React+TS provisional) after vision is known
 - [ ] Scaffold app per the resulting plan
 - [ ] CONTRIBUTING.md + contributor docs before public announcement
@@ -334,13 +334,13 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 - [ ] Hosting target decision (GitHub Pages / Netlify / Cloudflare)
 ```
 
-- [ ] **Step 2: Create diary directory**
+- [x] **Step 2: Create diary directory**
 
 ```powershell
 New-Item -ItemType Directory -Force C:\dev\card-maker\.claude\state\diary | Out-Null
 ```
 
-- [ ] **Step 3: Verify state/ is ignored**
+- [x] **Step 3: Verify state/ is ignored**
 
 ```powershell
 Set-Location C:\dev\card-maker
@@ -348,7 +348,7 @@ git status --porcelain
 git check-ignore -v .claude/state/backlog.md
 ```
 
-Expected: `git status --porcelain` output contains NO `.claude/state` lines; `check-ignore` prints the `.gitignore:` rule line `.claude/state/`. If state files appear in status, STOP — fix `.gitignore` before continuing.
+Expected: `git status --porcelain` output contains NO `.claude/state` lines; `check-ignore` prints the `.gitignore:` rule line `.claude/state/`. If state files appear in status, STOP â€” fix `.gitignore` before continuing.
 
 ---
 
@@ -357,36 +357,36 @@ Expected: `git status --porcelain` output contains NO `.claude/state` lines; `ch
 **Files:**
 - Modify: `C:\dev\card-maker\README.md` (currently 2 lines from GitHub init: title + description)
 
-- [ ] **Step 1: Replace README contents**
+- [x] **Step 1: Replace README contents**
 
 ```markdown
 # Card Maker
 
-An open-source tool to create custom trading-card-style cards — inspired by
+An open-source tool to create custom trading-card-style cards â€” inspired by
 [pokecardmaker.net](https://pokecardmaker.net/create), built to be far more powerful and
 customizable.
 
-> **Status: early design.** No application code yet — the product design phase is in progress.
+> **Status: early design.** No application code yet â€” the product design phase is in progress.
 > Watch this space.
 
 ## Planned
 
-- Fully custom card layouts: frames, art, text, symbols, stats — all editable
+- Fully custom card layouts: frames, art, text, symbols, stats â€” all editable
 - High-quality export
 - Runs entirely in the browser
 
 ## Repo layout
 
-- `CLAUDE.md` + `.claude/` — shared project memory for AI-assisted development (rules,
-  knowledge, decision log) — committed so every contributor and session shares context
-- `docs/superpowers/specs/` — design specs · `docs/superpowers/plans/` — implementation plans
+- `CLAUDE.md` + `.claude/` â€” shared project memory for AI-assisted development (rules,
+  knowledge, decision log) â€” committed so every contributor and session shares context
+- `docs/superpowers/specs/` â€” design specs Â· `docs/superpowers/plans/` â€” implementation plans
 
 ## License
 
 [MIT](LICENSE)
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```powershell
 Set-Location C:\dev\card-maker
@@ -403,9 +403,9 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 ### Task 8: Pointer in old OneDrive folder
 
 **Files:**
-- Create: `C:\Users\srira\OneDrive\Desktop\Card Maker\MOVED.md` (outside the repo — no commit)
+- Create: `C:\Users\srira\OneDrive\Desktop\Card Maker\MOVED.md` (outside the repo â€” no commit)
 
-- [ ] **Step 1: Write `MOVED.md`**
+- [x] **Step 1: Write `MOVED.md`**
 
 ```markdown
 # This project has moved
@@ -421,7 +421,7 @@ file locks). Nothing else in this folder is used.
 
 ### Task 9: Push and verify
 
-- [ ] **Step 1: Push to origin**
+- [x] **Step 1: Push to origin**
 
 ```powershell
 Set-Location C:\dev\card-maker
@@ -430,7 +430,7 @@ git push -u origin main
 
 Expected: push succeeds, `main` tracks `origin/main`.
 
-- [ ] **Step 2: Verify success criteria from the spec**
+- [x] **Step 2: Verify success criteria from the spec**
 
 ```powershell
 Set-Location C:\dev\card-maker
@@ -439,4 +439,5 @@ git status --porcelain
 gh repo view froyonator/Card-Maker --json defaultBranchRef --jq .defaultBranchRef.name
 ```
 
-Expected: log shows all environment commits; status is clean (no untracked except nothing — state/ ignored); remote default branch `main` now contains the pushed commits. Spec success criteria 1-4 all hold: committed history, CLAUDE.md entry point present, state/ ignored, zero app code.
+Expected: log shows all environment commits; status is clean (no untracked except nothing â€” state/ ignored); remote default branch `main` now contains the pushed commits. Spec success criteria 1-4 all hold: committed history, CLAUDE.md entry point present, state/ ignored, zero app code.
+
