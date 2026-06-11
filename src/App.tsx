@@ -15,7 +15,7 @@ const sampleCard: CardDocument = {
     "move1.name": "Forager", "move1.damage": "", "move1.text": "Draw any two Energy cards of your choice from the bank.",
     weakness: "weakness ×2", resistance: "resistance –", retreat: "retreat ●●●",
     flavorText: "Since Dedenne can't generate much electricity on its own, it steals electricity from outlets.",
-    illustrator: "Illus. Yuu Nishida", setInfo: "SVP EN · J", copyright: "©2026 froyonator — fan art, not official",
+    illustrator: "Illus. Yuu Nishida", setInfo: "SVP EN · J", copyright: "©2026 froyonator. Fan art, not official.",
   },
   overrides: { paletteId: "lightning" },
   meta: { title: "Dedenne sample", createdAt: "", modifiedAt: "" },

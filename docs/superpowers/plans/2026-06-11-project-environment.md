@@ -4,7 +4,7 @@
 
 **Goal:** Build the Card Maker repository environment per the approved spec: project-local `.claude/` memory (knowledge/rules/skills/scripts/state), CLAUDE.md entry point, repo hygiene files, a pointer in the old OneDrive folder, and a first push to GitHub.
 
-**Architecture:** Everything is plain markdown/config — no application code. The `.claude/` directory is committed to git except `state/`, which is gitignored personal memory. CLAUDE.md uses Claude Code `@path` imports so rules auto-load every session.
+**Architecture:** Everything is plain markdown/config - no application code. The `.claude/` directory is committed to git except `state/`, which is gitignored personal memory. CLAUDE.md uses Claude Code `@path` imports so rules auto-load every session.
 
 **Tech Stack:** Git, GitHub (`origin` = https://github.com/froyonator/Card-Maker.git), Markdown, EditorConfig.
 
@@ -30,7 +30,7 @@ coverage/
 .env
 .env.*
 
-# Personal Claude memory — never committed (see .claude/ structure)
+# Personal Claude memory - never committed (see .claude/ structure)
 .claude/state/
 
 # OS junk
@@ -89,10 +89,10 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 # Git Discipline
 
 - Work on `main` locally for now; switch to feature branches once the app scaffold lands.
-- Small, atomic commits — one logical change per commit.
+- Small, atomic commits - one logical change per commit.
 - Conventional commit messages: `feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:`.
 - Never force-push `main`. Never rewrite published history.
-- Push to `origin` (https://github.com/froyonator/Card-Maker) occasionally — local-first workflow; the remote is backup + publication, not the workspace.
+- Push to `origin` (https://github.com/froyonator/Card-Maker) occasionally - local-first workflow; the remote is backup + publication, not the workspace.
 - Never commit secrets, tokens, or `.env` files. `.claude/state/` is personal memory and stays untracked.
 - Record significant decisions in `.claude/knowledge/decisions.md` in the same commit as the change they explain.
 ```
@@ -102,12 +102,12 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 ```markdown
 # Code Style
 
-(App code does not exist yet — these rules take effect with the first scaffold. Update when the stack is finalized.)
+(App code does not exist yet - these rules take effect with the first scaffold. Update when the stack is finalized.)
 
 - TypeScript everywhere, `strict: true`. No `any` unless annotated with a reason.
 - Prefer small, focused files: one component/module responsibility per file.
 - Components: PascalCase files and exports. Utilities/hooks: camelCase, hooks prefixed `use`.
-- No premature abstraction — duplicate twice before extracting (rule of three).
+- No premature abstraction - duplicate twice before extracting (rule of three).
 - Comments explain constraints and "why", never "what" the next line does.
 - Match the formatting config in `.editorconfig`; formatter/linter config will be added with the scaffold.
 ```
@@ -117,9 +117,9 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 ```markdown
 # Security
 
-- No secrets, API keys, or tokens in the repo — ever. Use `.env` locally (gitignored) and document required vars in README.
+- No secrets, API keys, or tokens in the repo - ever. Use `.env` locally (gitignored) and document required vars in README.
 - This app will accept user-uploaded images and user-authored templates: treat all user content as untrusted. Validate file types/sizes; never `dangerouslySetInnerHTML` with user content; sanitize anything rendered or exported.
-- Keep dependencies minimal and audited — every new package needs a reason; prefer zero-dependency solutions for small utilities.
+- Keep dependencies minimal and audited - every new package needs a reason; prefer zero-dependency solutions for small utilities.
 - Open-source repo: assume everything committed is public the moment it lands. There is no "temporary" secret commit.
 ```
 
@@ -167,19 +167,19 @@ and `decisions.md` for the running decision log.
 
 Running log of significant decisions. Newest first. Format: date, decision, why, revisit-when.
 
-## 2026-06-11 — Stack provisionally Vite + React + TypeScript
+## 2026-06-11 - Stack provisionally Vite + React + TypeScript
 **Why:** Card maker is a client-side editor; lean SPA hosts anywhere free; large OSS contributor pool.
-**Revisit when:** Full product idea is shared — sharing/galleries/accounts could justify Next.js.
+**Revisit when:** Full product idea is shared - sharing/galleries/accounts could justify Next.js.
 
-## 2026-06-11 — Project-local `.claude/` committed to git; `state/` gitignored
+## 2026-06-11 - Project-local `.claude/` committed to git; `state/` gitignored
 **Why:** Open-source contributors and every Claude session share identical context; personal logs must not collide.
 **Revisit when:** Never expected; structure may grow (skills/, scripts/) as workflows emerge.
 
-## 2026-06-11 — Repo lives at `C:\dev\card-maker`, not OneDrive
+## 2026-06-11 - Repo lives at `C:\dev\card-maker`, not OneDrive
 **Why:** OneDrive sync conflicts with Node tooling (node_modules churn, file locks). Git + GitHub are the backup.
 **Revisit when:** Never.
 
-## 2026-06-11 — License: MIT
+## 2026-06-11 - License: MIT
 **Why:** Permissive default for an open-source tool; GitHub-initialized.
 **Revisit when:** Before first public release announcement, if attribution/copyleft preferences change.
 ```
@@ -271,7 +271,7 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 ```markdown
 # Card Maker
 
-Open-source web app for creating fully custom trading-card-style cards — inspired by
+Open-source web app for creating fully custom trading-card-style cards - inspired by
 pokecardmaker.net, but more powerful and customizable. **Status: pre-scaffold.** The product
 design brainstorm has not happened yet; no application code exists. Stack is provisionally
 Vite + React + TypeScript (see decision log before assuming).
@@ -284,12 +284,12 @@ Vite + React + TypeScript (see decision log before assuming).
 
 ## Memory map (read on demand)
 
-- `.claude/knowledge/architecture.md` — app architecture (stub until designed)
-- `.claude/knowledge/decisions.md` — running decision log; check before re-litigating a choice
-- `.claude/knowledge/research/` — reference notes
-- `.claude/skills/`, `.claude/scripts/` — project workflows and hooks (empty by design for now)
-- `.claude/state/` — YOUR personal session memory (gitignored): backlog, diary. Keep it current.
-- `docs/superpowers/specs/` — approved design specs; `docs/superpowers/plans/` — implementation plans
+- `.claude/knowledge/architecture.md` - app architecture (stub until designed)
+- `.claude/knowledge/decisions.md` - running decision log; check before re-litigating a choice
+- `.claude/knowledge/research/` - reference notes
+- `.claude/skills/`, `.claude/scripts/` - project workflows and hooks (empty by design for now)
+- `.claude/state/` - YOUR personal session memory (gitignored): backlog, diary. Keep it current.
+- `docs/superpowers/specs/` - approved design specs; `docs/superpowers/plans/` - implementation plans
 
 ## Working agreement
 
@@ -348,7 +348,7 @@ git status --porcelain
 git check-ignore -v .claude/state/backlog.md
 ```
 
-Expected: `git status --porcelain` output contains NO `.claude/state` lines; `check-ignore` prints the `.gitignore:` rule line `.claude/state/`. If state files appear in status, STOP — fix `.gitignore` before continuing.
+Expected: `git status --porcelain` output contains NO `.claude/state` lines; `check-ignore` prints the `.gitignore:` rule line `.claude/state/`. If state files appear in status, STOP - fix `.gitignore` before continuing.
 
 ---
 
@@ -362,24 +362,24 @@ Expected: `git status --porcelain` output contains NO `.claude/state` lines; `ch
 ```markdown
 # Card Maker
 
-An open-source tool to create custom trading-card-style cards — inspired by
+An open-source tool to create custom trading-card-style cards - inspired by
 [pokecardmaker.net](https://pokecardmaker.net/create), built to be far more powerful and
 customizable.
 
-> **Status: early design.** No application code yet — the product design phase is in progress.
+> **Status: early design.** No application code yet - the product design phase is in progress.
 > Watch this space.
 
 ## Planned
 
-- Fully custom card layouts: frames, art, text, symbols, stats — all editable
+- Fully custom card layouts: frames, art, text, symbols, stats - all editable
 - High-quality export
 - Runs entirely in the browser
 
 ## Repo layout
 
-- `CLAUDE.md` + `.claude/` — shared project memory for AI-assisted development (rules,
-  knowledge, decision log) — committed so every contributor and session shares context
-- `docs/superpowers/specs/` — design specs · `docs/superpowers/plans/` — implementation plans
+- `CLAUDE.md` + `.claude/` - shared project memory for AI-assisted development (rules,
+  knowledge, decision log) - committed so every contributor and session shares context
+- `docs/superpowers/specs/` - design specs · `docs/superpowers/plans/` - implementation plans
 
 ## License
 
@@ -403,7 +403,7 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 ### Task 8: Pointer in old OneDrive folder
 
 **Files:**
-- Create: `C:\Users\srira\OneDrive\Desktop\Card Maker\MOVED.md` (outside the repo — no commit)
+- Create: `C:\Users\srira\OneDrive\Desktop\Card Maker\MOVED.md` (outside the repo - no commit)
 
 - [x] **Step 1: Write `MOVED.md`**
 
@@ -439,7 +439,7 @@ git status --porcelain
 gh repo view froyonator/Card-Maker --json defaultBranchRef --jq .defaultBranchRef.name
 ```
 
-Expected: log shows all environment commits; status is clean (no untracked except nothing — state/ ignored); remote default branch `main` now contains the pushed commits. Spec success criteria 1-4 all hold: committed history, CLAUDE.md entry point present, state/ ignored, zero app code.
+Expected: log shows all environment commits; status is clean (no untracked except nothing - state/ ignored); remote default branch `main` now contains the pushed commits. Spec success criteria 1-4 all hold: committed history, CLAUDE.md entry point present, state/ ignored, zero app code.
 
 ---
 

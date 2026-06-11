@@ -1,10 +1,10 @@
-# M1 — Engine Foundation Implementation Plan
+# M1 - Engine Foundation Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Stand up the Vite+React+TS app with the core SVG engine — schema, parameter resolution, text layout, renderer, MPC geometry — plus a first S&V Basic Pokémon framework and raster export, proven in a dev harness page.
+**Goal:** Stand up the Vite+React+TS app with the core SVG engine - schema, parameter resolution, text layout, renderer, MPC geometry - plus a first S&V Basic Pokémon framework and raster export, proven in a dev harness page.
 
-**Architecture:** Four-module layout per the MVP spec (`src/core`, `src/channels`, `src/editor`, `src/export`). Framework coordinate space is **750×1050 user units = the MPC cut size** (2.5″×3.5″ @ 300 DPI); bleed extends 36 units per side (822×1122). Frameworks are typed TS objects validated by zod schemas (community packs later load the same shape as JSON). M1 ships no interactive editor — `App.tsx` is a dev harness rendering a sample card with export buttons. M2 (editor UX) and M3 (persistence/export polish) are separate plans.
+**Architecture:** Four-module layout per the MVP spec (`src/core`, `src/channels`, `src/editor`, `src/export`). Framework coordinate space is **750×1050 user units = the MPC cut size** (2.5″×3.5″ @ 300 DPI); bleed extends 36 units per side (822×1122). Frameworks are typed TS objects validated by zod schemas (community packs later load the same shape as JSON). M1 ships no interactive editor - `App.tsx` is a dev harness rendering a sample card with export buttons. M2 (editor UX) and M3 (persistence/export polish) are separate plans.
 
 **Tech Stack:** Vite, React 18, TypeScript (strict), zod, Vitest (+jsdom).
 
@@ -61,7 +61,7 @@ npm install zod
 npm install -D vitest jsdom @testing-library/react @testing-library/jest-dom
 ```
 
-(Scaffolder may warn the directory is non-empty — choose "Ignore files and continue". If it refuses non-interactively, scaffold into `tmp-scaffold/`, move contents up, delete `tmp-scaffold/`.)
+(Scaffolder may warn the directory is non-empty - choose "Ignore files and continue". If it refuses non-interactively, scaffold into `tmp-scaffold/`, move contents up, delete `tmp-scaffold/`.)
 
 - [x] **Step 2: Strip template noise**
 
@@ -70,7 +70,7 @@ Delete `src/App.css`, `src/assets/react.svg`, `public/vite.svg`; replace `src/Ap
 ```tsx
 // src/App.tsx
 export default function App() {
-  return <main style={{ padding: 32 }}>card maker — engine harness (M1)</main>;
+  return <main style={{ padding: 32 }}>card maker - engine harness (M1)</main>;
 }
 ```
 
@@ -95,13 +95,13 @@ export default defineConfig({
 });
 ```
 
-Confirm `tsconfig.app.json` has `"strict": true` (Vite template default — verify, don't assume). Add `"types": ["vitest/globals"]` to its compilerOptions.
+Confirm `tsconfig.app.json` has `"strict": true` (Vite template default - verify, don't assume). Add `"types": ["vitest/globals"]` to its compilerOptions.
 
 Add scripts to `package.json`: `"test": "vitest run"`, `"test:watch": "vitest"`.
 
 - [x] **Step 4: Smoke-verify**
 
-Run: `npm run dev` (background) — expect Vite serving on localhost with the placeholder text. Then `npm run build` — expect clean TS build. Then `npm run test` — expect "no test files found" exit 0 (or add a trivial `expect(true).toBe(true)` spec and delete it in Task 2).
+Run: `npm run dev` (background) - expect Vite serving on localhost with the placeholder text. Then `npm run build` - expect clean TS build. Then `npm run test` - expect "no test files found" exit 0 (or add a trivial `expect(true).toBe(true)` spec and delete it in Task 2).
 
 - [x] **Step 5: Commit**
 
@@ -163,7 +163,7 @@ describe("exportPixelSize", () => {
 });
 ```
 
-- [x] **Step 2: Run to verify failure** — `npm run test -- geometry` → FAIL (module not found).
+- [x] **Step 2: Run to verify failure** - `npm run test -- geometry` → FAIL (module not found).
 
 - [x] **Step 3: Implement**
 
@@ -199,9 +199,9 @@ export function exportPixelSize(req: ExportRequest): PixelSize {
 }
 ```
 
-- [x] **Step 4: Verify pass** — `npm run test -- geometry` → all green.
+- [x] **Step 4: Verify pass** - `npm run test -- geometry` → all green.
 
-- [x] **Step 5: Commit** — `git add src/core; git commit -m "feat: card/MPC geometry module with mpc_bleed.py contract tests"`
+- [x] **Step 5: Commit** - `git add src/core; git commit -m "feat: card/MPC geometry module with mpc_bleed.py contract tests"`
 
 ---
 
@@ -267,7 +267,7 @@ describe("CardDocumentSchema", () => {
 });
 ```
 
-- [x] **Step 2: Verify failure** — `npm run test -- schema` → FAIL.
+- [x] **Step 2: Verify failure** - `npm run test -- schema` → FAIL.
 
 - [x] **Step 3: Implement**
 
@@ -357,9 +357,9 @@ export type CardDocument = z.infer<typeof CardDocumentSchema>;
 export type ImageFieldValue = z.infer<typeof ImageValue>;
 ```
 
-- [x] **Step 4: Verify pass** — `npm run test -- schema` → green.
+- [x] **Step 4: Verify pass** - `npm run test -- schema` → green.
 
-- [x] **Step 5: Commit** — `git commit -m "feat: zod schemas for Framework and CardDocument"`
+- [x] **Step 5: Commit** - `git commit -m "feat: zod schemas for Framework and CardDocument"`
 
 ---
 
@@ -436,7 +436,7 @@ export function resolvePaint(paint: string, params: ResolvedParams): string {
 }
 ```
 
-- [x] **Step 4: Verify pass.** **Step 5: Commit** — `git commit -m "feat: parameter resolution with default/palette/override precedence"`
+- [x] **Step 4: Verify pass.** **Step 5: Commit** - `git commit -m "feat: parameter resolution with default/palette/override precedence"`
 
 ---
 
@@ -515,7 +515,7 @@ export function wrapText(text: string, maxWidth: number, measure: Measure, maxLi
 }
 ```
 
-- [x] **Step 4: Verify pass.** **Step 5: Commit** — `git commit -m "feat: deterministic greedy text wrapping"`
+- [x] **Step 4: Verify pass.** **Step 5: Commit** - `git commit -m "feat: deterministic greedy text wrapping"`
 
 ---
 
@@ -691,9 +691,9 @@ function LayerEl({ layer, params, card, clipExtend, onClick }: LayerElProps) {
 
 Note: `clipExtend` is accepted but clipping `extend` layers at trim is achieved by the viewBox itself in trim mode (geometry outside `0 0 750 1050` simply isn't visible). The flag exists so M3's export path can assert behavior; no clipPath element is needed in M1.
 
-- [x] **Step 4: Verify pass** — `npm run test -- CardRenderer` → green. (jsdom renders SVG attributes; that is all these tests assert.)
+- [x] **Step 4: Verify pass** - `npm run test -- CardRenderer` → green. (jsdom renders SVG attributes; that is all these tests assert.)
 
-- [x] **Step 5: Commit** — `git commit -m "feat: SVG CardRenderer for shape/text/image/group layers"`
+- [x] **Step 5: Commit** - `git commit -m "feat: SVG CardRenderer for shape/text/image/group layers"`
 
 ---
 
@@ -857,7 +857,7 @@ import type { Framework } from "../../../core/schema";
 export const svBasic: Framework = {
   schemaVersion: 1,
   id: "pokemon.sv.basic", version: "0.1.0", channelId: "pokemon",
-  name: "Scarlet & Violet — Basic", variant: "basic",
+  name: "Scarlet & Violet - Basic", variant: "basic",
   parameters: [
     { name: "frameColor", type: "color", default: "#f2cf45" },
     { name: "accentColor", type: "color", default: "#b8941f" },
@@ -866,34 +866,28 @@ export const svBasic: Framework = {
     { name: "showFlavorText", type: "boolean", default: true },
   ],
   layers: [
-    // ——— chrome ———
-    { kind: "shape", id: "outer-border", bleed: "extend",
+    // -  -  - chrome -  -  - { kind: "shape", id: "outer-border", bleed: "extend",
       shape: { type: "rect", x: -36, y: -36, w: 822, h: 1122 }, fill: "$frameColor" },
     { kind: "shape", id: "card-face", bleed: "clip",
       shape: { type: "rect", x: 26, y: 26, w: 698, h: 998, rx: 18 }, fill: "$cardBg",
       stroke: "$accentColor", strokeWidth: 3 },
-    // ——— header ———
-    { kind: "text", id: "stage-label", slot: "stage", x: 40, y: 64, w: 120, size: 22, weight: 700, color: "$textColor", maxLines: 1 },
+    // -  -  - header -  -  - { kind: "text", id: "stage-label", slot: "stage", x: 40, y: 64, w: 120, size: 22, weight: 700, color: "$textColor", maxLines: 1 },
     { kind: "text", id: "name", slot: "name", x: 56, y: 96, w: 420, size: 44, weight: 800, color: "$textColor", maxLines: 1 },
     { kind: "text", id: "hp", slot: "hp", x: 470, y: 96, w: 160, size: 40, weight: 700, align: "end", color: "$textColor", maxLines: 1 },
     { kind: "symbol", id: "type-symbol", symbolId: "energy.lightning", x: 650, y: 52, size: 56 },
-    // ——— art ———
-    { kind: "image", id: "art", slot: "art", x: 56, y: 120, w: 638, h: 430, fit: "cover" },
+    // -  -  - art -  -  - { kind: "image", id: "art", slot: "art", x: 56, y: 120, w: 638, h: 430, fit: "cover" },
     { kind: "shape", id: "art-frame", bleed: "clip",
       shape: { type: "rect", x: 56, y: 120, w: 638, h: 430 }, fill: "none", stroke: "$accentColor", strokeWidth: 4 },
-    // ——— moves ———
-    { kind: "symbol", id: "move1-cost", symbolId: "energy.colorless", x: 64, y: 600, size: 44 },
+    // -  -  - moves -  -  - { kind: "symbol", id: "move1-cost", symbolId: "energy.colorless", x: 64, y: 600, size: 44 },
     { kind: "text", id: "move1-name", slot: "move1.name", x: 200, y: 632, w: 350, size: 36, weight: 800, color: "$textColor", maxLines: 1 },
     { kind: "text", id: "move1-damage", slot: "move1.damage", x: 560, y: 632, w: 130, size: 36, weight: 700, align: "end", color: "$textColor", maxLines: 1 },
     { kind: "text", id: "move1-text", slot: "move1.text", x: 64, y: 668, w: 622, size: 26, color: "$textColor", maxLines: 4 },
-    // ——— type bar ———
-    { kind: "shape", id: "typebar-rule", bleed: "clip",
+    // -  -  - type bar -  -  - { kind: "shape", id: "typebar-rule", bleed: "clip",
       shape: { type: "rect", x: 40, y: 830, w: 670, h: 3 }, fill: "$accentColor" },
     { kind: "text", id: "weakness", slot: "weakness", x: 56, y: 868, w: 200, size: 24, color: "$textColor", maxLines: 1 },
     { kind: "text", id: "resistance", slot: "resistance", x: 290, y: 868, w: 200, size: 24, color: "$textColor", maxLines: 1 },
     { kind: "text", id: "retreat", slot: "retreat", x: 520, y: 868, w: 180, size: 24, align: "end", color: "$textColor", maxLines: 1 },
-    // ——— footer ———
-    { kind: "group", id: "flavor", visibleIf: "showFlavorText", children: [
+    // -  -  - footer -  -  - { kind: "group", id: "flavor", visibleIf: "showFlavorText", children: [
       { kind: "text", id: "flavor-text", slot: "flavorText", x: 330, y: 910, w: 360, size: 20, align: "end", color: "$textColor", maxLines: 4 },
     ]},
     { kind: "text", id: "illustrator", slot: "illustrator", x: 56, y: 930, w: 260, size: 20, color: "$textColor", maxLines: 1 },
@@ -959,11 +953,11 @@ case "symbol": {
 }
 ```
 
-(`ChannelDefinition` import cycle note: `SymbolDef` lives in `channels/types.ts`; move it to `core/schema.ts` if the import direction complains — core must not import from channels. Simplest correct fix: define `SymbolDef` in `core/schema.ts` and re-export from `channels/types.ts`.)
+(`ChannelDefinition` import cycle note: `SymbolDef` lives in `channels/types.ts`; move it to `core/schema.ts` if the import direction complains - core must not import from channels. Simplest correct fix: define `SymbolDef` in `core/schema.ts` and re-export from `channels/types.ts`.)
 
-- [x] **Step 4: Verify pass** — `npm run test` → all suites green.
+- [x] **Step 4: Verify pass** - `npm run test` → all suites green.
 
-- [x] **Step 5: Commit** — `git commit -m "feat: channel registry, Pokémon channel with S&V Basic framework v0"`
+- [x] **Step 5: Commit** - `git commit -m "feat: channel registry, Pokémon channel with S&V Basic framework v0"`
 
 ---
 
@@ -1068,7 +1062,7 @@ const sampleCard: CardDocument = {
     "move1.name": "Forager", "move1.damage": "", "move1.text": "Draw any two Energy cards of your choice from the bank.",
     weakness: "weakness ×2", resistance: "resistance –", retreat: "retreat ●●●",
     flavorText: "Since Dedenne can't generate much electricity on its own, it steals electricity from outlets.",
-    illustrator: "Illus. Yuu Nishida", setInfo: "SVP EN · J", copyright: "©2026 your-name — fan art, not official",
+    illustrator: "Illus. Yuu Nishida", setInfo: "SVP EN · J", copyright: "©2026 your-name - fan art, not official",
   },
   overrides: { paletteId: "lightning" },
   meta: { title: "Dedenne sample", createdAt: "", modifiedAt: "" },
@@ -1116,18 +1110,18 @@ export default function App() {
 }
 ```
 
-(`CardRenderer` gains the `symbols?: SymbolDef[]` prop in Task 7 — make sure the prop name matches.)
+(`CardRenderer` gains the `symbols?: SymbolDef[]` prop in Task 7 - make sure the prop name matches.)
 
-- [x] **Step 5: Verify** — `npm run test` all green; `npm run build` clean; `npm run dev`, open the page: sample Dedenne card renders, palette dropdown recolors instantly, all three export buttons download PNGs. Check MPC PNG: 1644×2244, frame color fills the outer ring edge-to-edge.
+- [x] **Step 5: Verify** - `npm run test` all green; `npm run build` clean; `npm run dev`, open the page: sample Dedenne card renders, palette dropdown recolors instantly, all three export buttons download PNGs. Check MPC PNG: 1644×2244, frame color fills the outer ring edge-to-edge.
 
-- [x] **Step 6: Commit** — `git commit -m "feat: raster export and dev harness with sample card"`
+- [x] **Step 6: Commit** - `git commit -m "feat: raster export and dev harness with sample card"`
 
 ---
 
 ### Task 9: Wrap-up
 
 - [x] **Step 1:** Update `CHANGELOG.md` `[Unreleased]` → roll into `0.2.0` with the engine-foundation feature list. Set `package.json` version to `0.2.0`.
-- [x] **Step 2:** `git add -A; git commit -m "chore: release 0.2.0 — engine foundation"`
+- [x] **Step 2:** `git add -A; git commit -m "chore: release 0.2.0 - engine foundation"`
 - [x] **Step 3:** `git push origin main`
 - [x] **Step 4:** Verify success criteria of this plan: all tests green (`npm run test`), build clean, harness renders + recolors + exports (manual), MPC export dimensions verified.
 
@@ -1135,5 +1129,5 @@ export default function App() {
 
 ## Out of scope for M1 (next plans)
 
-- **M2 — Editor:** Zustand document/UI stores, undo/redo, click-to-select with inspector, Fill rail generated from `fieldSections`, Design rail (palette/parameters/hue-sat/layer toggles), pro-studio theme, canvas-accurate text measurement injection, bundled fonts, move-cost symbol editing, zoom/pan.
-- **M3 — Persistence & export polish:** File System Access project folder + fallback + IndexedDB autosave, export dialog with quality dropdown UI, font/image inlining for export, error states, schema migrations, visual snapshot tests.
+- **M2 - Editor:** Zustand document/UI stores, undo/redo, click-to-select with inspector, Fill rail generated from `fieldSections`, Design rail (palette/parameters/hue-sat/layer toggles), pro-studio theme, canvas-accurate text measurement injection, bundled fonts, move-cost symbol editing, zoom/pan.
+- **M3 - Persistence & export polish:** File System Access project folder + fallback + IndexedDB autosave, export dialog with quality dropdown UI, font/image inlining for export, error states, schema migrations, visual snapshot tests.

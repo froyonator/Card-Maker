@@ -7,7 +7,7 @@ coverage/
 .env
 .env.*
 
-# Personal Claude memory — never committed (see .claude/ structure)
+# Personal Claude memory - never committed (see .claude/ structure)
 .claude/state/
 
 # Brainstorm session mockups (visual companion)
