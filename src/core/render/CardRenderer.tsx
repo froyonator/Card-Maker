@@ -77,7 +77,7 @@ function LayerEl({ layer, params, card, symbols, fonts, onClick }: LayerElProps)
       const gradientId = gradient ? `grad-${layer.id}` : undefined;
       const common = {
         "data-layer": layer.id,
-        fill: gradient ? `url(#${gradientId})` : layer.fill ? resolvePaint(layer.fill, params) : "none",
+        fill: gradient ? `url(#${gradientId})` : typeof layer.fill === "string" ? resolvePaint(layer.fill, params) : "none",
         stroke: layer.stroke ? resolvePaint(layer.stroke, params) : undefined,
         strokeWidth: layer.strokeWidth,
         onClick: onClick ? () => onClick(layer.id) : undefined,

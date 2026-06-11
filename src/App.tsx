@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { CardRenderer } from "./core/render/CardRenderer";
 import { registerChannel, getChannel } from "./channels/registry";
 import { pokemonChannel } from "./channels/pokemon";
+import { POKEMON_FONTS } from "./channels/pokemon/fonts";
 import type { CardDocument } from "./core/schema";
 import { exportPixelSize, type ExportKind } from "./core/geometry";
 import { svgToPngBlob, downloadBlob, exportFilename } from "./export/raster";
@@ -39,12 +40,12 @@ export default function App() {
   const activePalette = channel.palettes.find((p) => p.id === paletteId);
   return (
     <main style={{ display: "flex", gap: 32, padding: 32, alignItems: "flex-start" }}>
-      <div ref={trimRef} style={{ width: 375 }}>
-        <CardRenderer framework={framework} card={sampleCard} palette={activePalette} symbols={channel.symbols} mode="trim" />
+      <div ref={trimRef} style={{ width: 450 }}>
+        <CardRenderer framework={framework} card={sampleCard} palette={activePalette} symbols={channel.symbols} fonts={POKEMON_FONTS} mode="trim" />
       </div>
       {/* hidden bleed-mode render used as the MPC export source */}
       <div ref={bleedRef} style={{ width: 0, height: 0, overflow: "hidden" }} aria-hidden>
-        <CardRenderer framework={framework} card={sampleCard} palette={activePalette} symbols={channel.symbols} mode="bleed" />
+        <CardRenderer framework={framework} card={sampleCard} palette={activePalette} symbols={channel.symbols} fonts={POKEMON_FONTS} mode="bleed" />
       </div>
       <div style={{ display: "grid", gap: 8, alignContent: "start" }}>
         <label>

@@ -1,16 +1,21 @@
 import type { ParameterPreset } from "../../core/params";
 
-/** Energy-type palettes: frameColor = card body, accentColor = trims/badges. v0 values, tuned later. */
+/**
+ * Energy-type palettes for the S&V frameworks.
+ * frameLight/frameDark form the card body gradient, frameSheen is the lighter
+ * highlight sweep in the top corner, accentColor is for dark trims and rims.
+ * Values sampled from reference template renders, then hand-tuned.
+ */
 export const TYPE_PALETTES: ParameterPreset[] = [
-  { id: "grass",     values: { frameColor: "#7db74f", accentColor: "#4c7a2e" } },
-  { id: "fire",      values: { frameColor: "#e8643c", accentColor: "#a33214" } },
-  { id: "water",     values: { frameColor: "#4f9fd8", accentColor: "#2a6ea6" } },
-  { id: "lightning", values: { frameColor: "#f2cf45", accentColor: "#b8941f" } },
-  { id: "psychic",   values: { frameColor: "#9c6bb3", accentColor: "#6a3f82" } },
-  { id: "fighting",  values: { frameColor: "#c97f44", accentColor: "#8f5424" } },
-  { id: "darkness",  values: { frameColor: "#3e4757", accentColor: "#1f2530" } },
-  { id: "metal",     values: { frameColor: "#a8b0b8", accentColor: "#6f777f" } },
-  { id: "dragon",    values: { frameColor: "#b09e54", accentColor: "#7a6c33" } },
-  { id: "fairy",     values: { frameColor: "#d878a8", accentColor: "#a64a78" } },
-  { id: "colorless", values: { frameColor: "#d8d4cc", accentColor: "#9a968e" } },
+  { id: "grass",     values: { frameLight: "#8cc152", frameDark: "#5f9131", frameSheen: "#aed581", accentColor: "#2e5614" } },
+  { id: "fire",      values: { frameLight: "#f0703f", frameDark: "#cc4717", frameSheen: "#f59d6d", accentColor: "#7a2807" } },
+  { id: "water",     values: { frameLight: "#5fb1e8", frameDark: "#2f7fc1", frameSheen: "#8ecdf0", accentColor: "#174e7d" } },
+  { id: "lightning", values: { frameLight: "#f9d72f", frameDark: "#e0ad14", frameSheen: "#fbe66e", accentColor: "#8a6a0a" } },
+  { id: "psychic",   values: { frameLight: "#b07cc6", frameDark: "#7e4f98", frameSheen: "#c9a2d8", accentColor: "#4a2762" } },
+  { id: "fighting",  values: { frameLight: "#d29054", frameDark: "#a45f23", frameSheen: "#e0b184", accentColor: "#5e3410" } },
+  { id: "darkness",  values: { frameLight: "#4a5568", frameDark: "#272f3d", frameSheen: "#6b7689", accentColor: "#11161f" } },
+  { id: "metal",     values: { frameLight: "#c4ccd4", frameDark: "#8a939c", frameSheen: "#dde2e7", accentColor: "#4d555e" } },
+  { id: "dragon",    values: { frameLight: "#c2b264", frameDark: "#8f7f35", frameSheen: "#d6ca8e", accentColor: "#564a18" } },
+  { id: "fairy",     values: { frameLight: "#e58fb8", frameDark: "#bb5687", frameSheen: "#f0b3cf", accentColor: "#6e2a4c" } },
+  { id: "colorless", values: { frameLight: "#e8e4dc", frameDark: "#b5b1a8", frameSheen: "#f4f1ea", accentColor: "#6b675e" } },
 ];
