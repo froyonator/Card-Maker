@@ -1,0 +1,3 @@
+{
+  "$comment": "Shared project settings for Claude Code. Hook wiring (.claude/scripts/) is added here when hooks exist."
+}
