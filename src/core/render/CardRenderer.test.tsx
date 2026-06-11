@@ -41,3 +41,52 @@ describe("CardRenderer", () => {
     expect(svg().querySelectorAll("[data-layer]").length).toBeGreaterThanOrEqual(3);
   });
 });
+
+describe("CardRenderer gradients and fonts", () => {
+  const gradFramework = {
+    ...tinyFramework,
+    layers: [
+      {
+        kind: "shape" as const, id: "sky", bleed: "clip" as const,
+        shape: { type: "rect" as const, x: 0, y: 0, w: 750, h: 1050 },
+        fill: { type: "linear" as const, angle: 90, stops: [
+          { offset: 0, color: "$frameColor" },
+          { offset: 1, color: "#ffffff" },
+        ]},
+      },
+      {
+        kind: "text" as const, id: "name", slot: "name", x: 0, y: 50, w: 400,
+        size: 44, color: "#000", fontRole: "name", letterSpacing: -0.05, italic: true,
+      },
+    ],
+  };
+
+  function renderGrad() {
+    const { container } = render(
+      <CardRenderer framework={gradFramework} card={doc} fonts={{ name: "Cabin, sans-serif" }} />,
+    );
+    return container.querySelector("svg")!;
+  }
+
+  it("emits a linearGradient def and references it from the layer fill", () => {
+    const s = renderGrad();
+    const grad = s.querySelector("linearGradient");
+    expect(grad).not.toBeNull();
+    const id = grad!.getAttribute("id")!;
+    expect(s.querySelector('[data-layer="sky"]')!.getAttribute("fill")).toBe(`url(#${id})`);
+    const stops = grad!.querySelectorAll("stop");
+    expect(stops[0].getAttribute("stop-color")).toBe("#f5d442");
+    expect(stops[1].getAttribute("stop-color")).toBe("#ffffff");
+  });
+  it("angle 90 maps to a top-to-bottom gradient vector", () => {
+    const grad = renderGrad().querySelector("linearGradient")!;
+    expect(Number(grad.getAttribute("y1"))).toBeCloseTo(0, 5);
+    expect(Number(grad.getAttribute("y2"))).toBeCloseTo(1, 5);
+  });
+  it("applies font family from the fonts prop, letter spacing, and italics", () => {
+    const text = renderGrad().querySelector('[data-layer="name"]')!;
+    expect(text.getAttribute("font-family")).toBe("Cabin, sans-serif");
+    expect(text.getAttribute("letter-spacing")).toBe("-0.05em");
+    expect(text.getAttribute("font-style")).toBe("italic");
+  });
+});

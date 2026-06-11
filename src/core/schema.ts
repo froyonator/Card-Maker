@@ -19,11 +19,19 @@ const ShapeGeom = z.discriminatedUnion("type", [
 /** Paint value: literal color or "$parameterName" reference. */
 const Paint = z.string();
 
+/** Linear gradient fill. Angle is degrees: 0 points right, 90 points down. Stop colors may be $refs. */
+const LinearGradient = z.object({
+  type: z.literal("linear"),
+  angle: z.number(),
+  stops: z.array(z.object({ offset: z.number().min(0).max(1), color: Paint })).min(1),
+});
+const FillPaint = z.union([Paint, LinearGradient]);
+
 const BaseLayer = { id: z.string().min(1) };
 
 const ShapeLayer = z.object({
   ...BaseLayer, kind: z.literal("shape"),
-  shape: ShapeGeom, fill: Paint.optional(), stroke: Paint.optional(), strokeWidth: z.number().optional(),
+  shape: ShapeGeom, fill: FillPaint.optional(), stroke: Paint.optional(), strokeWidth: z.number().optional(),
   bleed: z.enum(["extend", "clip"]),
 });
 const TextLayer = z.object({
@@ -31,6 +39,7 @@ const TextLayer = z.object({
   slot: z.string().min(1), x: z.number(), y: z.number(), w: z.number(),
   size: z.number(), weight: z.number().optional(), align: z.enum(["start", "middle", "end"]).optional(),
   color: Paint, maxLines: z.number().int().positive().optional(), lineHeight: z.number().optional(),
+  fontRole: z.string().optional(), letterSpacing: z.number().optional(), italic: z.boolean().optional(),
 });
 const ImageLayer = z.object({
   ...BaseLayer, kind: z.literal("image"),
@@ -80,6 +89,7 @@ export type Framework = z.infer<typeof FrameworkSchema>;
 export type Layer = LayerInput;
 export type CardDocument = z.infer<typeof CardDocumentSchema>;
 export type ImageFieldValue = z.infer<typeof ImageValue>;
+export type LinearGradientFill = z.infer<typeof LinearGradient>;
 
 /** Vector symbol art (energy icons etc.). Lives in core so the renderer can draw it without importing channels. */
 export interface SymbolDef { id: string; viewBox: string; paths: { d: string; fill: string }[]; }

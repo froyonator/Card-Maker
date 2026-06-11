@@ -33,6 +33,44 @@ describe("FrameworkSchema", () => {
   });
 });
 
+describe("FrameworkSchema paint and typography extensions", () => {
+  it("accepts a linear gradient fill on a shape layer", () => {
+    const fw = {
+      ...tinyFramework,
+      layers: [{
+        kind: "shape", id: "grad-bg", bleed: "clip",
+        shape: { type: "rect", x: 0, y: 0, w: 750, h: 1050 },
+        fill: { type: "linear", angle: 90, stops: [
+          { offset: 0, color: "$frameColor" },
+          { offset: 1, color: "#ffffff" },
+        ]},
+      }],
+    };
+    expect(FrameworkSchema.safeParse(fw).success).toBe(true);
+  });
+  it("rejects a gradient with out-of-range stop offsets", () => {
+    const fw = {
+      ...tinyFramework,
+      layers: [{
+        kind: "shape", id: "bad", bleed: "clip",
+        shape: { type: "rect", x: 0, y: 0, w: 10, h: 10 },
+        fill: { type: "linear", angle: 0, stops: [{ offset: 2, color: "#fff" }] },
+      }],
+    };
+    expect(FrameworkSchema.safeParse(fw).success).toBe(false);
+  });
+  it("accepts fontRole, letterSpacing, and italic on text layers", () => {
+    const fw = {
+      ...tinyFramework,
+      layers: [{
+        kind: "text", id: "name", slot: "name", x: 0, y: 50, w: 400,
+        size: 44, color: "#000", fontRole: "name", letterSpacing: -0.05, italic: true,
+      }],
+    };
+    expect(FrameworkSchema.safeParse(fw).success).toBe(true);
+  });
+});
+
 describe("CardDocumentSchema", () => {
   it("accepts a valid document", () => {
     const doc = {
