@@ -1,0 +1,22 @@
+# Dependencies & build output (future app scaffold)
+node_modules/
+dist/
+coverage/
+
+# Environment & secrets
+.env
+.env.*
+
+# Personal Claude memory — never committed (see .claude/ structure)
+.claude/state/
+
+# OS junk
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
