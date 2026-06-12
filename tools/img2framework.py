@@ -24,6 +24,7 @@ import re
 import sys
 import tempfile
 
+import numpy as np
 import vtracer
 from PIL import Image
 
@@ -130,11 +131,17 @@ def main():
     with tempfile.TemporaryDirectory() as tmp:
         src = args.input
         if args.key_transparent:
-            im = Image.open(args.input).convert("RGBA")
-            bg = Image.new("RGBA", im.size, KEY_COLOR + (255,))
-            flat = Image.alpha_composite(bg, im).convert("RGB")
+            # Alpha-aware flatten. Blending semi-transparent edge pixels with the
+            # magenta key leaves purple fringes in the trace, so instead: weak
+            # alpha (soft shadows, holes) becomes pure key and drops out; solid
+            # pixels composite onto white, which matches card stock.
+            a = np.array(Image.open(args.input).convert("RGBA")).astype(np.float32)
+            rgb, alpha = a[..., :3], a[..., 3:4] / 255.0
+            flat = rgb * alpha + 255.0 * (1.0 - alpha)
+            weak = a[..., 3] < 128
+            flat[weak] = KEY_COLOR
             src = os.path.join(tmp, "keyed.png")
-            flat.save(src)
+            Image.fromarray(flat.astype(np.uint8), "RGB").save(src)
 
         svg_path = os.path.join(tmp, "traced.svg")
         # Stacked mode gives the cleanest region rendering. The traced chrome has

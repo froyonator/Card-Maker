@@ -5,6 +5,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [S
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-06-12
+
+### Added
+- Local `assets/` folder (gitignored) for template packs and fonts, arranged by template family, stage, and type. First pack: 30 Full Art Pokemon blanks (simonzook.com pack 02, terms permit any lawful use).
+- Full Art layout files (`tools/layouts/sv-fa.*.json`): full-card art slot under the chrome, text and symbol slots over it.
+
+### Fixed
+- img2framework: alpha-aware flattening. Solid pixels composite onto white and weak-alpha pixels drop to the key color, eliminating magenta fringes on anti-aliased chrome edges. Stays on stacked tracing (cutout mode scrambles region colors).
+
 ## [0.5.0] - 2026-06-12
 
 ### Added

@@ -1,0 +1,11 @@
+[
+  {
+    "kind": "shape", "id": "art-backing", "bleed": "clip",
+    "shape": { "type": "rect", "x": 0, "y": 0, "w": 750, "h": 1050 },
+    "fill": "#3a3a3e"
+  },
+  {
+    "kind": "image", "id": "art", "slot": "art",
+    "x": 0, "y": 0, "w": 750, "h": 1050, "fit": "cover"
+  }
+]
