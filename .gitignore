@@ -33,3 +33,6 @@ public/fonts-local/
 
 # Locally traced frameworks (derivatives of third-party templates)
 public/traced/
+
+# Local working assets (third-party template packs, fonts)
+assets/
