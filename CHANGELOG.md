@@ -5,6 +5,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [S
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-06-12
+
+### Added
+- img2framework `--erase X,Y,W,H`: blanks a region (design units, repeatable) before tracing by extending each row's left-neighbor pixel, preserving gradients. Used to remove the pack watermark from the bottom border.
+
 ## [0.6.0] - 2026-06-12
 
 ### Added

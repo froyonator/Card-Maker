@@ -108,6 +108,9 @@ def main():
     ap.add_argument("--quality", choices=QUALITY, default="high", help="trace fidelity (default high)")
     ap.add_argument("--key-transparent", action="store_true",
                     help="flatten transparency onto a key color and drop those paths (cuts art windows out of the chrome)")
+    ap.add_argument("--erase", action="append", default=[], metavar="X,Y,W,H",
+                    help="blank a region (design units) before tracing, e.g. a watermark; "
+                         "each row is filled with its left-neighbor pixel so gradients survive (repeatable)")
     ap.add_argument("--hue-param", metavar="NAME",
                     help="wrap the traced chrome in a group recolorable by the NAME number parameter (degrees)")
     ap.add_argument("--under", metavar="FILE", help="JSON array of layers rendered under the traced chrome (e.g. the art slot)")
@@ -128,14 +131,36 @@ def main():
 
     precision, layer_diff, speckle = QUALITY[args.quality]
 
+    erase_rects = []
+    for spec in args.erase:
+        parts = spec.split(",")
+        if len(parts) != 4:
+            ap.error(f"--erase {spec}: expected X,Y,W,H in design units")
+        erase_rects.append(tuple(float(p) for p in parts))
+
     with tempfile.TemporaryDirectory() as tmp:
         src = args.input
+        if erase_rects:
+            im = Image.open(src).convert("RGBA")
+            a = np.array(im)
+            ih, iw = a.shape[:2]
+            for (ex, ey, ew, eh) in erase_rects:
+                # Design units to source pixels.
+                x0 = max(0, int(ex * iw / CUT_W))
+                x1 = min(iw, int((ex + ew) * iw / CUT_W))
+                y0 = max(0, int(ey * ih / CUT_H))
+                y1 = min(ih, int((ey + eh) * ih / CUT_H))
+                if x0 <= 0 or x1 <= x0 or y1 <= y0:
+                    raise SystemExit(f"--erase {ex},{ey},{ew},{eh}: region empty or flush with the left edge")
+                a[y0:y1, x0:x1] = a[y0:y1, x0 - 1:x0]
+            src = os.path.join(tmp, "erased.png")
+            Image.fromarray(a, "RGBA").save(src)
         if args.key_transparent:
             # Alpha-aware flatten. Blending semi-transparent edge pixels with the
             # magenta key leaves purple fringes in the trace, so instead: weak
             # alpha (soft shadows, holes) becomes pure key and drops out; solid
             # pixels composite onto white, which matches card stock.
-            a = np.array(Image.open(args.input).convert("RGBA")).astype(np.float32)
+            a = np.array(Image.open(src).convert("RGBA")).astype(np.float32)
             rgb, alpha = a[..., :3], a[..., 3:4] / 255.0
             flat = rgb * alpha + 255.0 * (1.0 - alpha)
             weak = a[..., 3] < 128
