@@ -1,19 +1,21 @@
 """Convert a raster image into Card Maker framework layers.
 
-Traces the image into colored vector paths with vtracer, rescales every path
-into the 750x1050 card design space, and emits the result as framework `shape`
-layers (JSON). Optionally maps traced colors onto named framework parameters so
-the output recolors with palettes.
+Pipeline: optionally flatten transparency onto a key color, trace the image
+into colored vector paths with vtracer at a chosen quality, rescale everything
+into the 750x1050 card design space, drop the keyed (window) paths, wrap the
+chrome in a recolorable group, and merge user-defined slot layers under and
+over it. The output is a complete, loadable Framework document.
 
 Usage:
-  python tools/img2framework.py input.png -o out.json
-  python tools/img2framework.py input.png -o out.json --framework --id pokemon.sv.traced
-  python tools/img2framework.py input.png -o out.json --param frameColor=#f2cf45 --tolerance 24
+  python tools/img2framework.py template.png -o out.json --framework --id my.frame
+  python tools/img2framework.py template.png -o out.json --framework \
+      --quality high --key-transparent --hue-param frameHue \
+      --under tools/layouts/sv-basic.under.json \
+      --slots tools/layouts/sv-basic.slots.json
 
-Notes:
-  Tracing a copyrighted template produces a derivative work. Outputs traced
-  from official card scans must stay in the gitignored reference/ folder and
-  are for personal use only. See tools/README.md.
+Copyright rule: output traced from official card templates stays in gitignored
+folders (reference/, public/traced/) and is for personal use only. See
+tools/README.md.
 """
 import argparse
 import json
@@ -23,10 +25,22 @@ import sys
 import tempfile
 
 import vtracer
+from PIL import Image
 
 # Card design space (must match src/core/geometry.ts).
 CUT_W = 750
 CUT_H = 1050
+
+# Flatten color for transparent regions; dropped from the trace afterwards.
+KEY_COLOR = (255, 0, 254)
+
+# vtracer tuning per quality level: (color_precision, layer_difference, filter_speckle).
+QUALITY = {
+    "low": (6, 32, 16),
+    "medium": (7, 16, 8),
+    "high": (8, 8, 4),
+    "ultra": (8, 4, 2),
+}
 
 PATH_RE = re.compile(r'<path[^>]*\bd="([^"]+)"[^>]*\bfill="([^"]+)"[^>]*/?>')
 PATH_RE_SWAPPED = re.compile(r'<path[^>]*\bfill="([^"]+)"[^>]*\bd="([^"]+)"[^>]*/?>')
@@ -38,8 +52,8 @@ NUM_RE = re.compile(r"[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?")
 def scale_path(d, sx, sy, tx=0.0, ty=0.0):
     """Rescale an absolute-coordinate path string into the design space.
 
-    vtracer emits absolute M/L/C/Z commands. Coordinates alternate x,y inside
-    each command, so scaling is positional. Relative (lowercase) commands would
+    vtracer emits absolute commands; coordinates alternate x,y inside each
+    command, so scaling is positional. Relative (lowercase) commands would
     scale incorrectly and abort the run.
     """
     out = []
@@ -78,12 +92,25 @@ def close_enough(a, b, tolerance):
     return all(abs(x - y) <= tolerance for x, y in zip(a, b))
 
 
+def load_layer_file(path):
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    if not isinstance(data, list):
+        raise SystemExit(f"{path}: expected a JSON array of layers")
+    return data
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("input", help="raster image (png/jpg)")
     ap.add_argument("-o", "--output", required=True, help="output JSON path")
-    ap.add_argument("--max-colors", type=int, default=8, help="color precision passed to vtracer (default 8)")
-    ap.add_argument("--filter-speckle", type=int, default=8, help="drop traced specks smaller than this (default 8)")
+    ap.add_argument("--quality", choices=QUALITY, default="high", help="trace fidelity (default high)")
+    ap.add_argument("--key-transparent", action="store_true",
+                    help="flatten transparency onto a key color and drop those paths (cuts art windows out of the chrome)")
+    ap.add_argument("--hue-param", metavar="NAME",
+                    help="wrap the traced chrome in a group recolorable by the NAME number parameter (degrees)")
+    ap.add_argument("--under", metavar="FILE", help="JSON array of layers rendered under the traced chrome (e.g. the art slot)")
+    ap.add_argument("--slots", metavar="FILE", help="JSON array of layers rendered over the traced chrome (text slots, symbols)")
     ap.add_argument("--param", action="append", default=[], metavar="NAME=#HEX",
                     help="map traced colors near #HEX to the $NAME parameter (repeatable)")
     ap.add_argument("--tolerance", type=int, default=16, help="per-channel color match tolerance (default 16)")
@@ -91,19 +118,34 @@ def main():
     ap.add_argument("--id", default="traced.framework", help="framework id when using --framework")
     args = ap.parse_args()
 
-    params = {}
+    color_params = {}
     for spec in args.param:
         name, _, hexval = spec.partition("=")
         if not hexval.startswith("#"):
             ap.error(f"--param {spec}: expected NAME=#HEX")
-        params[name] = hex_to_rgb(hexval)
+        color_params[name] = hex_to_rgb(hexval)
+
+    precision, layer_diff, speckle = QUALITY[args.quality]
 
     with tempfile.TemporaryDirectory() as tmp:
+        src = args.input
+        if args.key_transparent:
+            im = Image.open(args.input).convert("RGBA")
+            bg = Image.new("RGBA", im.size, KEY_COLOR + (255,))
+            flat = Image.alpha_composite(bg, im).convert("RGB")
+            src = os.path.join(tmp, "keyed.png")
+            flat.save(src)
+
         svg_path = os.path.join(tmp, "traced.svg")
+        # Stacked mode gives the cleanest region rendering. The traced chrome has
+        # no real hole where the source was transparent (the bottom color blob
+        # spans it), so window slots like card art belong in --slots (above the
+        # chrome), sized to the window. --key-transparent still drops the keyed
+        # window path itself so it cannot tint the area.
         vtracer.convert_image_to_svg_py(
-            args.input, svg_path,
+            src, svg_path,
             colormode="color", hierarchical="stacked", mode="spline",
-            filter_speckle=args.filter_speckle, color_precision=args.max_colors,
+            filter_speckle=speckle, color_precision=precision, layer_difference=layer_diff,
         )
         svg = open(svg_path, encoding="utf-8").read()
 
@@ -113,24 +155,28 @@ def main():
     sx = CUT_W / float(size.group(1))
     sy = CUT_H / float(size.group(2))
 
-    layers = []
     matches = PATH_RE.findall(svg)
-    swapped = False
     if not matches:
         matches = [(d, f) for f, d in PATH_RE_SWAPPED.findall(svg)]
-        swapped = True
-    # vtracer puts per-path offsets in transform attributes; capture them in document order.
     transforms = TRANSFORM_RE.findall(svg)
+
+    chrome = []
+    dropped = 0
     for i, (d, fill) in enumerate(matches):
         tx, ty = (float(v) for v in transforms[i]) if i < len(transforms) else (0.0, 0.0)
         paint = fill
-        if fill.startswith("#") and params:
+        if fill.startswith("#"):
             rgb = hex_to_rgb(fill)
-            for name, target in params.items():
+            # The keyed window color is not chrome; dropping it opens the hole
+            # the under-layers (user art) show through.
+            if args.key_transparent and close_enough(rgb, KEY_COLOR, 60):
+                dropped += 1
+                continue
+            for name, target in color_params.items():
                 if close_enough(rgb, target, args.tolerance):
                     paint = f"${name}"
                     break
-        layers.append({
+        chrome.append({
             "kind": "shape",
             "id": f"trace-{i:04d}",
             "bleed": "clip",
@@ -138,24 +184,39 @@ def main():
             "fill": paint,
         })
 
+    chrome_group = {"kind": "group", "id": "traced-chrome", "children": chrome}
+    if args.hue_param:
+        chrome_group["hueShift"] = args.hue_param
+
+    layers = []
+    if args.under:
+        layers += load_layer_file(args.under)
+    layers.append(chrome_group)
+    if args.slots:
+        layers += load_layer_file(args.slots)
+
     if args.framework:
+        parameters = [
+            {"name": name, "type": "color", "default": "#%02x%02x%02x" % rgb}
+            for name, rgb in color_params.items()
+        ]
+        if args.hue_param:
+            parameters.append({"name": args.hue_param, "type": "number", "default": 0})
         result = {
             "schemaVersion": 1,
             "id": args.id, "version": "0.1.0", "channelId": "traced",
             "name": args.id, "variant": "traced",
-            "parameters": [
-                {"name": name, "type": "color", "default": "#%02x%02x%02x" % rgb}
-                for name, rgb in params.items()
-            ],
+            "parameters": parameters,
             "layers": layers,
         }
     else:
         result = layers
 
     with open(args.output, "w", encoding="utf-8") as f:
-        json.dump(result, f, indent=2)
-    mapped = sum(1 for l in layers if str(l["fill"]).startswith("$"))
-    print(f"traced {len(layers)} layers ({mapped} mapped to parameters, swapped-attrs={swapped}) -> {args.output}")
+        json.dump(result, f, indent=1)
+    mapped = sum(1 for l in chrome if str(l["fill"]).startswith("$"))
+    print(f"traced {len(chrome)} chrome paths ({mapped} color-mapped, {dropped} keyed-out), "
+          f"quality={args.quality} -> {args.output} ({os.path.getsize(args.output) // 1024} KB)")
 
 
 if __name__ == "__main__":

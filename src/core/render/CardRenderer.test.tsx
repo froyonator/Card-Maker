@@ -90,3 +90,35 @@ describe("CardRenderer gradients and fonts", () => {
     expect(text.getAttribute("font-style")).toBe("italic");
   });
 });
+
+describe("CardRenderer hue-shift groups", () => {
+  const hueFramework = {
+    ...tinyFramework,
+    parameters: [...tinyFramework.parameters, { name: "frameHue", type: "number" as const, default: 0 }],
+    layers: [{
+      kind: "group" as const, id: "chrome", hueShift: "frameHue",
+      children: [{
+        kind: "shape" as const, id: "bg", bleed: "clip" as const,
+        shape: { type: "rect" as const, x: 0, y: 0, w: 750, h: 1050 }, fill: "#f2cf45",
+      }],
+    }],
+  };
+
+  function renderHue(hue?: number) {
+    const parameters: Record<string, number> = hue === undefined ? {} : { frameHue: hue };
+    const hueDoc = { ...doc, overrides: { parameters } };
+    const { container } = render(<CardRenderer framework={hueFramework} card={hueDoc} />);
+    return container.querySelector("svg")!;
+  }
+
+  it("applies a hueRotate filter when the bound parameter is nonzero", () => {
+    const s = renderHue(120);
+    const group = s.querySelector('[data-layer="chrome"]')!;
+    expect(group.getAttribute("filter")).toBe("url(#hue-chrome)");
+    expect(s.querySelector("#hue-chrome feColorMatrix")!.getAttribute("values")).toBe("120");
+  });
+  it("emits no filter when the hue is zero", () => {
+    const group = renderHue().querySelector('[data-layer="chrome"]')!;
+    expect(group.getAttribute("filter")).toBeNull();
+  });
+});

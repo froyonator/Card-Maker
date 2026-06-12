@@ -58,12 +58,18 @@ const SymbolLayer = z.object({
 export type LayerInput =
   | z.infer<typeof ShapeLayer> | z.infer<typeof TextLayer>
   | z.infer<typeof ImageLayer> | z.infer<typeof SymbolLayer>
-  | { kind: "group"; id: string; visibleIf?: string; children: LayerInput[] };
+  | { kind: "group"; id: string; visibleIf?: string; hueShift?: string; children: LayerInput[] };
 
 const LayerSchema: z.ZodType<LayerInput> = z.lazy(() =>
   z.union([
     ShapeLayer, TextLayer, ImageLayer, SymbolLayer,
-    z.object({ ...BaseLayer, kind: z.literal("group"), visibleIf: z.string().optional(), children: z.array(LayerSchema) }),
+    z.object({
+      ...BaseLayer, kind: z.literal("group"),
+      visibleIf: z.string().optional(),
+      /** Name of a number parameter (degrees). Recolors the whole group via a hue-rotate filter, which is how traced multi-tone chrome stays recolorable. */
+      hueShift: z.string().optional(),
+      children: z.array(LayerSchema),
+    }),
   ]),
 );
 

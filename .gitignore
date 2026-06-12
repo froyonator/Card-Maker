@@ -30,3 +30,6 @@ __pycache__/
 
 # Authentic card fonts, user-supplied, never committed (see src/fonts-local.css)
 public/fonts-local/
+
+# Locally traced frameworks (derivatives of third-party templates)
+public/traced/

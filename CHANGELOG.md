@@ -5,6 +5,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versioning: [S
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-06-12
+
+### Added
+- Engine: hue-shift groups. A group layer can bind a number parameter rendered as a hue-rotate filter, which makes complex multi-tone chrome recolorable as one control.
+- img2framework v2: quality presets (low/medium/high/ultra), transparency keying, recolorable chrome group via `--hue-param`, and slot-layer merging (`--under`, `--slots`) so the output is a complete loadable framework, not a bare path dump.
+- Layout files (`tools/layouts/`) carrying the S&V basic slot coordinates, measured from the template geometry and the reference editor CSS.
+- Dev harness loads a locally traced framework from `public/traced/local.json` with a framework dropdown and hue slider.
+
+### Changed
+- Traced output folders (`public/traced/`, `reference/`) are gitignored; traced derivatives of third-party templates stay local-only.
+
 ## [0.4.0] - 2026-06-11
 
 ### Added

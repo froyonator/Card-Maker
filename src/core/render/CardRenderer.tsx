@@ -64,11 +64,20 @@ function LayerEl({ layer, params, card, symbols, fonts, onClick }: LayerElProps)
   switch (layer.kind) {
     case "group": {
       if (layer.visibleIf !== undefined && params[layer.visibleIf] !== true) return null;
+      const hue = layer.hueShift !== undefined ? Number(params[layer.hueShift] ?? 0) : 0;
+      const filterId = `hue-${layer.id}`;
+      const children = layer.children.map((c) => (
+        <LayerEl key={c.id} layer={c} params={params} card={card} symbols={symbols} fonts={fonts} onClick={onClick} />
+      ));
+      if (!hue) return <g data-layer={layer.id}>{children}</g>;
       return (
-        <g data-layer={layer.id}>
-          {layer.children.map((c) => (
-            <LayerEl key={c.id} layer={c} params={params} card={card} symbols={symbols} fonts={fonts} onClick={onClick} />
-          ))}
+        <g data-layer={layer.id} filter={`url(#${filterId})`}>
+          <defs>
+            <filter id={filterId}>
+              <feColorMatrix type="hueRotate" values={String(hue)} />
+            </filter>
+          </defs>
+          {children}
         </g>
       );
     }

@@ -1,0 +1,33 @@
+[
+  { "kind": "shape", "id": "art-backing", "bleed": "clip",
+    "shape": { "type": "rect", "x": 61, "y": 105, "w": 630, "h": 391 }, "fill": "#f5f2ea" },
+  { "kind": "image", "id": "art", "slot": "art", "x": 61, "y": 105, "w": 630, "h": 391, "fit": "cover" },
+
+  { "kind": "text", "id": "name", "slot": "name", "x": 145, "y": 76, "w": 330, "size": 44,
+    "weight": 700, "fontRole": "name", "letterSpacing": -0.04, "color": "#141414", "maxLines": 1 },
+  { "kind": "text", "id": "hp", "slot": "hp", "x": 480, "y": 74, "w": 171, "size": 38,
+    "weight": 700, "align": "end", "fontRole": "hpNumber", "color": "#141414", "maxLines": 1 },
+
+  { "kind": "symbol", "id": "move1-cost", "symbolId": "energy.colorless", "x": 50, "y": 568, "size": 44 },
+  { "kind": "text", "id": "move1-name", "slot": "move1.name", "x": 150, "y": 604, "w": 450, "size": 38,
+    "weight": 700, "align": "middle", "fontRole": "attackName", "color": "#141414", "maxLines": 1 },
+  { "kind": "text", "id": "move1-damage", "slot": "move1.damage", "x": 530, "y": 604, "w": 160, "size": 38,
+    "weight": 800, "align": "end", "fontRole": "damage", "color": "#141414", "maxLines": 1 },
+  { "kind": "text", "id": "move1-text", "slot": "move1.text", "x": 50, "y": 648, "w": 650, "size": 24,
+    "lineHeight": 1.3, "fontRole": "body", "color": "#141414", "maxLines": 4 },
+
+  { "kind": "text", "id": "weakness", "slot": "weakness", "x": 120, "y": 920, "w": 70, "size": 24,
+    "weight": 700, "fontRole": "typeBar", "color": "#141414", "maxLines": 1 },
+  { "kind": "text", "id": "resistance", "slot": "resistance", "x": 315, "y": 920, "w": 70, "size": 24,
+    "weight": 700, "fontRole": "typeBar", "color": "#141414", "maxLines": 1 },
+  { "kind": "symbol", "id": "retreat-1", "symbolId": "energy.colorless", "x": 600, "y": 898, "size": 30 },
+  { "kind": "symbol", "id": "retreat-2", "symbolId": "energy.colorless", "x": 634, "y": 898, "size": 30 },
+  { "kind": "symbol", "id": "retreat-3", "symbolId": "energy.colorless", "x": 668, "y": 898, "size": 30 },
+
+  { "kind": "text", "id": "illustrator", "slot": "illustrator", "x": 50, "y": 990, "w": 270, "size": 18,
+    "italic": true, "fontRole": "illustrator", "color": "#141414", "maxLines": 1 },
+  { "kind": "text", "id": "set-info", "slot": "setInfo", "x": 50, "y": 1016, "w": 270, "size": 16,
+    "italic": true, "fontRole": "setNumber", "color": "#141414", "maxLines": 1 },
+  { "kind": "text", "id": "flavor-text", "slot": "flavorText", "x": 320, "y": 962, "w": 380, "size": 18,
+    "align": "end", "lineHeight": 1.25, "fontRole": "flavor", "color": "#222222", "maxLines": 4 }
+]
